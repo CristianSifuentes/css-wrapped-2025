@@ -3,23 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 10 — @property: typed custom properties | CSS Wrapped 2025</title>
+  <title>Day 10 — Tree counting functions | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 10 / 21</p>
-    <h1>@property: typed custom properties</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Tree counting functions</h1>
+    <p>Staggered animations, anyone?</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 80 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/sibling-index" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/sibling-index" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/sibling-index" target="_blank" rel="noopener"><code>sibling-count()</code> and <code>sibling-index()</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "@property: typed custom properties" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        The usual method to create staggered animations for list items, where each item appears
+        sequentially, requires you to count DOM elements and hard-code these values into custom properties
+        (<code>--index: 1;</code>, <code>--index: 2;</code>) using <code>:nth-child</code> selectors. This
+        method is cumbersome, fragile, and not scalable — especially when the number of items changes
+        dynamically.
+      </p>
+
+      <p class="demo-intro">
+        The new <code>sibling-index()</code> and <code>sibling-count()</code> functions make your life
+        easier here: they provide native awareness of an element's position among its siblings.
+        <code>sibling-index()</code> returns a 1-based integer representing the element's position, while
+        <code>sibling-count()</code> returns the total number of siblings.
+      </p>
+
+      <p class="demo-intro">
+        These let you write concise, mathematical formulas for layouts and animations that automatically
+        adapt to the number of elements in the DOM.
+      </p>
+
+      <pre class="code-block"><code>li {
+  /* Create a staggered delay. */
+  /* We subtract 1 because sibling-index() starts at 1, */
+  /* ensuring the first item starts immediately (0s). */
+  transition: opacity 0.25s ease, translate 0.25s ease;
+  transition-delay: calc(0.1s * (sibling-index() - 1));
+
+  @starting-style {
+    opacity: 0;
+    translate: 1em 0;
+  }
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Four cards animate in with a staggered delay computed entirely from <code>sibling-index()</code> — no
+        hard-coded indices anywhere. Hit shuffle to re-order and re-run the entry animation.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <button class="demo-btn demo-btn--accent" id="shuffle-btn" type="button">
+        🔀 Shuffle
+      </button>
+
+      <ul class="stagger-gallery" id="stagger-gallery">
+        <li class="stagger-card" style="--card: var(--violet);"><span>🪐</span>Saturn</li>
+        <li class="stagger-card" style="--card: var(--magenta);"><span>🌙</span>Moon</li>
+        <li class="stagger-card" style="--card: var(--pink);"><span>🚀</span>Rocket</li>
+        <li class="stagger-card" style="--card: var(--gold);"><span>☄️</span>Comet</li>
+      </ul>
+
+      <p class="polyfill-note">
+        <code>sibling-index()</code> / <code>sibling-count()</code> have limited browser availability. Where
+        unsupported, this demo falls back to setting an <code>--i</code> custom property per card with
+        JavaScript, so the same staggered animation still plays — it just isn't computed by CSS alone.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>

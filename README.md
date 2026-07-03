@@ -47,7 +47,7 @@ _CSSWrapped2025/
 | 🗓️ **07** | [Anchored container queries](./day-07/index.html) | ✅ Available |
 | 🗓️ **08** | [Scroll-state queries](./day-08/index.html) | ✅ Available |
 | 🗓️ **09** | [`color-mix()` for blending colors](./day-09/index.html) | ⏳ Coming soon |
-| 🗓️ **10** | [`@property`: typed custom properties](./day-10/index.html) | ⏳ Coming soon |
+| 🗓️ **10** | [Tree counting functions](./day-10/index.html) | ✅ Available |
 | 🗓️ **11** | [View Transitions API](./day-11/index.html) | ⏳ Coming soon |
 | 🗓️ **12** | [`text-wrap: balance` and `pretty`](./day-12/index.html) | ⏳ Coming soon |
 | 🗓️ **13** | [Scroll-driven animations](./day-13/index.html) | ⏳ Coming soon |
