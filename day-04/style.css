@@ -1,18 +1,11 @@
-/* Day 04 — ::scroll-marker / ::scroll-button()
+/* Day 04 — Customizable select
    Styles specific to this day's demo. */
-
-.badge-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin: 0.75rem 0 0.5rem;
-}
 
 .baseline-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
   padding: 0.35rem 0.9rem;
   border-radius: 999px;
   border: 1px solid var(--border);
@@ -52,28 +45,13 @@
   font-size: 1.3rem;
 }
 
-.demo-subheading {
-  margin-top: 2rem;
-  font-size: 1.05rem;
-  color: var(--accent-2);
-}
-
 .demo-intro {
   color: var(--fg);
   max-width: 68ch;
 }
 
-.demo-note {
-  max-width: 68ch;
-  padding: 0.75rem 1rem;
-  border-left: 3px solid #ffb703;
-  background: var(--bg-alt);
-  color: var(--muted);
-  font-size: 0.9rem;
-  border-radius: 0 8px 8px 0;
-}
-
 .demo-intro code,
+.command-reference code,
 .polyfill-note code {
   background: var(--bg-alt);
   border: 1px solid var(--border);
@@ -90,6 +68,44 @@
   overflow-x: auto;
   font-size: 0.85rem;
   line-height: 1.6;
+}
+
+.command-reference {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.command-reference__title {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.command-reference dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+
+.command-reference dl > div {
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.6rem;
+}
+
+.command-reference dt {
+  margin-bottom: 0.2rem;
+}
+
+.command-reference dd {
+  margin: 0;
+  color: var(--muted);
 }
 
 .support-status {
@@ -113,94 +129,166 @@
 }
 
 /* ---------------------------------------------------------------- */
-/* Carousel — a plain scroll-snapping list, usable everywhere even   */
-/* without ::scroll-button()/::scroll-marker() support.              */
+/* Select gallery — one card per demo                                 */
 /* ---------------------------------------------------------------- */
 
-.carousel {
-  display: flex;
-  gap: 1rem;
-  margin: 1.5rem 0;
-  padding: 1rem 0.5rem;
-  list-style: none;
-
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-}
-
-.carousel__item {
-  flex: 0 0 auto;
-  scroll-snap-align: center;
-
+.select-gallery {
   display: grid;
-  place-items: center;
-  width: 9rem;
-  height: 9rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.select-card {
+  padding: 1.25rem;
   border-radius: var(--card-radius);
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #fff;
-  background: linear-gradient(160deg, var(--card, var(--accent)), color-mix(in oklab, var(--card, var(--accent)) 60%, black));
-  box-shadow: 0 16px 32px var(--shadow);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+.select-card__label {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 /* ---------------------------------------------------------------- */
-/* Native scroll buttons + markers, only where the browser actually  */
-/* understands the selectors — feature-detected with @supports       */
-/* selector(...) so unsupported browsers get none of this CSS.       */
+/* Baseline styling — applies everywhere, even without base-select   */
+/* support, so the native <select> still looks intentional.          */
 /* ---------------------------------------------------------------- */
 
-@supports selector(::scroll-button(*)) {
-  .carousel::scroll-button(left) {
-    content: "⬅" / "Scroll left";
-  }
-
-  .carousel::scroll-button(right) {
-    content: "⮕" / "Scroll right";
-  }
-
-  .carousel::scroll-button(left),
-  .carousel::scroll-button(right) {
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-    color: var(--fg);
-    cursor: pointer;
-  }
-
-  .carousel::scroll-button(left):disabled,
-  .carousel::scroll-button(right):disabled {
-    opacity: 0.3;
-    cursor: default;
-  }
+.custom-select {
+  width: 100%;
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg-raise);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
 }
 
-@supports selector(::scroll-marker) {
-  .carousel {
-    scroll-marker-group: after;
+/* ---------------------------------------------------------------- */
+/* base-select — the real customization, gated behind @supports so   */
+/* browsers without it just keep the plain native dropdown above.    */
+/* ---------------------------------------------------------------- */
+
+@supports (appearance: base-select) {
+  select.custom-select,
+  .custom-select::picker(select) {
+    appearance: base-select;
   }
 
-  .carousel::scroll-marker-group {
+  .custom-select {
     display: flex;
-    justify-content: center;
+    align-items: center;
     gap: 0.5rem;
-    margin-block-start: 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
   }
 
-  .carousel__item::scroll-marker {
-    content: " ";
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-  }
-
-  .carousel__item::scroll-marker:target-current {
-    background: var(--accent-2);
+  .custom-select:hover,
+  .custom-select:focus-visible {
     border-color: var(--accent-2);
+  }
+
+  .custom-select::picker-icon {
+    color: var(--muted);
+    transition: rotate 0.2s ease;
+  }
+
+  .custom-select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  .custom-select::picker(select) {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-raise);
+    box-shadow: 0 20px 45px var(--shadow);
+    padding: 0.4rem;
+    margin-block-start: 0.4rem;
+
+    transition: opacity 0.18s ease, transform 0.18s ease, display 0.18s allow-discrete,
+      overlay 0.18s allow-discrete;
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+
+    &:popover-open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @starting-style {
+      &:popover-open {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+      }
+    }
+  }
+
+  .custom-select option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    color: var(--fg);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--bg-alt);
+    }
+
+    &:checked {
+      background: color-mix(in oklab, var(--accent) 18%, transparent);
+    }
+  }
+
+  .custom-select option::checkmark {
+    order: 1;
+    margin-inline-start: auto;
+    color: var(--accent-2);
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    background: var(--swatch, currentColor);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  }
+
+  .profile-select option {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .profile-avatar {
+    font-size: 1.3rem;
+    margin-inline-end: 0.4rem;
+  }
+
+  .profile-name {
+    font-weight: 600;
+  }
+
+  .description {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* The button shows a slimmer summary: hide the description there,
+     keep it visible in the open dropdown's options. */
+  selectedcontent .description {
+    display: none;
+  }
+
+  selectedcontent {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 }
