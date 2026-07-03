@@ -40,10 +40,10 @@ _CSSWrapped2025/
 |:---:|---|:---:|
 | 🗓️ **01** | [Invoker Commands](./day-01/index.html) | ✅ Available |
 | 🗓️ **02** | [Dialog Light Dismiss (`<dialog closedby>`)](./day-02/index.html) | ✅ Available |
-| 🗓️ **03** | [Customizable `<select>`](./day-03/index.html) | ✅ Available |
-| 🗓️ **04** | [`::scroll-marker` / `::scroll-button()`](./day-04/index.html) | ✅ Available |
-| 🗓️ **05** | [`scroll-target-group`](./day-05/index.html) | ✅ Available |
-| 🗓️ **06** | [`popover="hint"`](./day-06/index.html) | ✅ Available |
+| 🗓️ **03** | [`popover="hint"`](./day-03/index.html) | ✅ Available |
+| 🗓️ **04** | [Customizable `<select>`](./day-04/index.html) | ✅ Available |
+| 🗓️ **05** | [`::scroll-marker` / `::scroll-button()`](./day-05/index.html) | ✅ Available |
+| 🗓️ **06** | [`scroll-target-group`](./day-06/index.html) | ✅ Available |
 | 🗓️ **07** | [Anchored container queries](./day-07/index.html) | ✅ Available |
 | 🗓️ **08** | [Scroll-state queries](./day-08/index.html) | ✅ Available |
 | 🗓️ **09** | [`color-mix()` for blending colors](./day-09/index.html) | ⏳ Coming soon |
