@@ -1,2 +1,245 @@
-/* Day 05 — Container Style Queries
+/* Day 05 — scroll-target-group
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.command-reference code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.command-reference {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.command-reference__title {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.command-reference dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+
+.command-reference dl > div {
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.6rem;
+}
+
+.command-reference dt {
+  margin-bottom: 0.2rem;
+}
+
+.command-reference dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Scroll-spy demo — a table of contents beside a scrollable panel   */
+/* of sections, so the whole thing is self-contained on the page.    */
+/* ---------------------------------------------------------------- */
+
+.scrollspy-demo {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0 2rem;
+}
+
+@media (max-width: 640px) {
+  .scrollspy-demo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.toc {
+  align-self: start;
+  position: sticky;
+  top: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+.toc__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.toc a {
+  display: block;
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-left: 3px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.toc a:hover {
+  color: var(--fg);
+  background: var(--bg-raise);
+}
+
+/* The scroll-spy highlight itself — native, driven by scroll-target-group. */
+.toc a.is-current,
+.toc a:target-current {
+  color: var(--accent-2);
+  font-weight: 700;
+  border-left-color: var(--accent-2);
+  background: var(--bg-raise);
+}
+
+.scrollspy-panel {
+  height: 20rem;
+  overflow-y: auto;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  scroll-behavior: smooth;
+}
+
+.scrollspy-section {
+  min-height: 20rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(160deg, color-mix(in oklab, var(--card, var(--accent)) 18%, var(--bg-alt)), var(--bg-alt));
+}
+
+.scrollspy-section:last-child {
+  border-bottom: none;
+}
+
+.scrollspy-section h3 {
+  margin: 0;
+  color: var(--fg);
+}
+
+.scrollspy-section p {
+  margin: 0;
+  max-width: 40ch;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- */
+/* scroll-target-group — only applied where the browser understands  */
+/* the property, so unsupported browsers fall through to the         */
+/* IntersectionObserver polyfill in script.js instead.                */
+/* ---------------------------------------------------------------- */
+
+@supports (scroll-target-group: auto) {
+  .toc {
+    scroll-target-group: auto;
+  }
+}

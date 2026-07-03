@@ -42,7 +42,7 @@ _CSSWrapped2025/
 | 🗓️ **02** | [Dialog Light Dismiss (`<dialog closedby>`)](./day-02/index.html) | ✅ Available |
 | 🗓️ **03** | [Customizable `<select>`](./day-03/index.html) | ✅ Available |
 | 🗓️ **04** | [`::scroll-marker` / `::scroll-button()`](./day-04/index.html) | ✅ Available |
-| 🗓️ **05** | [Container Style Queries](./day-05/index.html) | ⏳ Coming soon |
+| 🗓️ **05** | [`scroll-target-group`](./day-05/index.html) | ✅ Available |
 | 🗓️ **06** | [CSS Anchor Positioning](./day-06/index.html) | ⏳ Coming soon |
 | 🗓️ **07** | [Popover API and `[popover]`](./day-07/index.html) | ⏳ Coming soon |
 | 🗓️ **08** | [Wide-gamut colors: `oklch()` and `oklab()`](./day-08/index.html) | ⏳ Coming soon |
