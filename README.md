@@ -38,10 +38,10 @@ _CSSWrapped2025/
 
 | 📅 Day | ✨ CSS Novelty | Status |
 |:---:|---|:---:|
-| 🗓️ **01** | [Native CSS Nesting](./day-01/index.html) | ⏳ Coming soon |
-| 🗓️ **02** | [Dialog Light Dismiss (`<dialog closedby>`)](./day-02/index.html) | ⏳ Coming soon |
-| 🗓️ **03** | [Customizable `<select>`](./day-03/index.html) | ⏳ Coming soon |
-| 🗓️ **04** | [`::scroll-marker` / `::scroll-button()`](./day-04/index.html) | ⏳ Coming soon |
+| 🗓️ **01** | [Invoker Commands](./day-01/index.html) | ✅ Available |
+| 🗓️ **02** | [Dialog Light Dismiss (`<dialog closedby>`)](./day-02/index.html) | ✅ Available |
+| 🗓️ **03** | [Customizable `<select>`](./day-03/index.html) | ✅ Available |
+| 🗓️ **04** | [`::scroll-marker` / `::scroll-button()`](./day-04/index.html) | ✅ Available |
 | 🗓️ **05** | [Container Style Queries](./day-05/index.html) | ⏳ Coming soon |
 | 🗓️ **06** | [CSS Anchor Positioning](./day-06/index.html) | ⏳ Coming soon |
 | 🗓️ **07** | [Popover API and `[popover]`](./day-07/index.html) | ⏳ Coming soon |
@@ -62,7 +62,7 @@ _CSSWrapped2025/
 
 </div>
 
-> Each row will be marked ✅ **Available** as the video and demo for that day are published.
+> Rows are marked ✅ **Available** once that day's demo is built out; the rest are still ⏳ **Coming soon**.
 
 ---
 
