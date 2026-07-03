@@ -1,39 +1,42 @@
-// Day 06 — popover="hint"
-// Feature-detects `interestfor` (interest invokers) support. Where it's
-// missing, wires up the same hover/focus-to-open behavior by hand, so the
-// tooltip, link preview, and menu-item hints above still work everywhere.
+// Day 06 — scroll-target-group
+// Feature-detects native `scroll-target-group` support and reports it.
+// Where it's missing, an IntersectionObserver drives the same
+// "currently visible section" highlight on the table of contents.
 
-const supportsInterestFor = "interestForElement" in HTMLButtonElement.prototype;
+const supportsScrollTargetGroup =
+  typeof CSS !== "undefined" && CSS.supports("scroll-target-group", "auto");
 
 document.addEventListener("DOMContentLoaded", () => {
   const status = document.querySelector("#support-status");
   if (status) {
-    status.textContent = supportsInterestFor
-      ? "✅ Your browser supports interestfor / popover=\"hint\" natively."
-      : "⏳ No native support detected — hints are polyfilled with hover/focus listeners.";
-    status.classList.add(supportsInterestFor ? "ok" : "nok");
+    status.textContent = supportsScrollTargetGroup
+      ? "✅ Your browser supports scroll-target-group — the highlight above is fully native."
+      : "⏳ No native support detected — the highlight is polyfilled with an IntersectionObserver.";
+    status.classList.add(supportsScrollTargetGroup ? "ok" : "nok");
   }
 
-  if (supportsInterestFor) return;
+  if (supportsScrollTargetGroup) return;
 
-  document.querySelectorAll("[interestfor]").forEach((trigger) => {
-    const popover = document.querySelector(`#${trigger.getAttribute("interestfor")}`);
-    if (!popover) return;
+  const panel = document.querySelector(".scrollspy-panel");
+  const links = document.querySelectorAll(".toc a");
+  if (!panel || !links.length) return;
 
-    let hideTimer = null;
-    const open = () => {
-      clearTimeout(hideTimer);
-      popover.showPopover?.();
-    };
-    const scheduleClose = () => {
-      hideTimer = setTimeout(() => popover.hidePopover?.(), 150);
-    };
+  const linkByTargetId = new Map(
+    [...links].map((link) => [link.getAttribute("href").slice(1), link])
+  );
 
-    trigger.addEventListener("mouseenter", open);
-    trigger.addEventListener("focus", open);
-    trigger.addEventListener("mouseleave", scheduleClose);
-    trigger.addEventListener("blur", scheduleClose);
-    popover.addEventListener("mouseenter", () => clearTimeout(hideTimer));
-    popover.addEventListener("mouseleave", scheduleClose);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const link = linkByTargetId.get(entry.target.id);
+        if (!link) return;
+        link.classList.toggle("is-current", entry.isIntersecting);
+      });
+    },
+    { root: panel, threshold: 0.6 }
+  );
+
+  document.querySelectorAll(".scrollspy-section").forEach((section) => {
+    observer.observe(section);
   });
 });

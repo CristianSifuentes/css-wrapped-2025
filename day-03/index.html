@@ -3,150 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 03 — Customizable select | CSS Wrapped 2025</title>
+  <title>Day 03 — popover="hint" | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 03 / 21</p>
-    <h1>Customizable select</h1>
-    <p>You can finally style HTML <code>&lt;select&gt;</code> elements with CSS.</p>
+    <h1>popover="hint"</h1>
+    <p>Ephemeral popovers that don't close others.</p>
 
     <div class="baseline-badge baseline-badge--limited">
       <span class="baseline-badge__dot" aria-hidden="true"></span>
-      <span>👍 192 · <strong>Limited availability</strong></span>
+      <span>👍 74 · <strong>Limited availability</strong></span>
     </div>
 
     <div class="ref-links">
       <a href="#demo">Try the demo</a>
       <span aria-hidden="true">·</span>
-      <a href="https://developer.chrome.com/blog/a-customizable-select" target="_blank" rel="noopener">Chrome for Developers</a>
+      <a href="https://developer.chrome.com/blog/introducing-popover-hint" target="_blank" rel="noopener">Chrome for Developers</a>
       <span aria-hidden="true">·</span>
-      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_forms/Customizable_select" target="_blank" rel="noopener">MDN</a>
-      <span aria-hidden="true">·</span>
-      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_forms/Customizable_select" target="_blank" rel="noopener">Customizable <code>&lt;select&gt;</code></a>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/popover#hint" target="_blank" rel="noopener">MDN</a>
     </div>
   </header>
 
   <main>
     <section class="demo">
       <p class="demo-intro">
-        The time has finally arrived: you can now fully customize the HTML <code>&lt;select&gt;</code>
-        element using CSS! To get started, apply the <code>appearance: base-select</code> CSS property to
-        your <code>&lt;select&gt;</code> element — and to its <code>::picker(select)</code>. This switches it
-        to a new, minimal state that's optimized for customization.
+        Hint popovers with <code>popover="hint"</code> are a new type of HTML popover designed for ephemeral
+        layered UI patterns, such as tooltips or link previews. Opening a hint popover does
+        <strong>not</strong> close other open <code>auto</code> or <code>manual</code> popovers, allowing
+        layered UI elements to coexist. Hint popovers can also exist on links (<code>&lt;a&gt;</code> tags),
+        unlike <code>auto</code> and <code>manual</code> popovers, which require activation from button
+        elements.
       </p>
 
-      <pre class="code-block"><code>select,
-::picker(select) {
-  appearance: base-select;
-}</code></pre>
+      <p class="demo-intro">Set this up like any other popover:</p>
+
+      <pre class="code-block"><code>&lt;button interestfor="callout-1"&gt;&lt;/button&gt;
+&lt;div id="callout-1" popover=hint&gt;
+  Product callout information here.
+&lt;/div&gt;</code></pre>
 
       <p class="demo-intro">
-        Using <code>base-select</code> unlocks several powerful features, including complete CSS
-        customization. Every part of the select — the button, the dropdown list, and the options — can be
-        styled with CSS: colors, fonts, spacing, even animations.
+        Using <code>popover="hint"</code> combined with <strong>interest invokers</strong> (the
+        <code>[interestfor]</code> attribute) makes it much easier to build layered UI elements like
+        tooltips, hover cards, and previews declaratively in HTML and CSS, without complex JavaScript
+        workarounds. This pairing allows for dual-purpose interaction patterns — hover to preview, click to
+        navigate — and better management of multiple on-screen layers.
       </p>
-
-      <div class="command-reference">
-        <p class="command-reference__title">What comes with base-select</p>
-        <dl>
-          <div>
-            <dt><code>::picker(select)</code></dt>
-            <dd>Rendered in the top-layer, so it's never clipped by parent containers. The browser handles positioning and flipping automatically.</dd>
-          </div>
-          <div>
-            <dt>Rich <code>&lt;option&gt;</code> content</dt>
-            <dd><code>&lt;img&gt;</code> and <code>&lt;span&gt;</code> can live inside options — flag icons, avatars, multi-line rows. No interactive elements like links, though.</dd>
-          </div>
-          <div>
-            <dt><code>&lt;selectedcontent&gt;</code></dt>
-            <dd>Reflects the selected option's HTML. Setting <code>display: none</code> on parts of it inside <code>selectedcontent</code> lets the button show only a subset — an icon, a name — while the option shows everything.</dd>
-          </div>
-        </dl>
-      </div>
 
       <h2 id="demo" class="demo-heading">Try it live</h2>
       <p id="support-status" class="support-status">Checking native support…</p>
 
-      <div class="select-gallery">
-        <div class="select-card">
-          <p class="select-card__label">1. Fully styled options</p>
-          <select class="custom-select" name="color">
-            <button type="button">
-              <selectedcontent></selectedcontent>
-            </button>
-            <option value="violet" class="swatch-option">
-              <span class="swatch" style="--swatch: var(--accent);"></span> Violet
-            </option>
-            <option value="cyan" class="swatch-option" selected>
-              <span class="swatch" style="--swatch: var(--accent-2);"></span> Cyan
-            </option>
-            <option value="rose" class="swatch-option">
-              <span class="swatch" style="--swatch: #ff8fa3;"></span> Rose
-            </option>
-            <option value="lime" class="swatch-option">
-              <span class="swatch" style="--swatch: #4ade80;"></span> Lime
-            </option>
-          </select>
+      <div class="hint-gallery">
+        <div class="hint-card">
+          <p class="hint-card__label">1. A simple anchored tooltip</p>
+          <button class="demo-btn" id="tip-anchor" interestfor="tip-1" type="button" style="anchor-name: --tip-anchor;">
+            Hover or focus me
+          </button>
+          <div id="tip-1" popover="hint" class="hint-popover" style="position-anchor: --tip-anchor;">
+            📌 I'm a <code>popover="hint"</code>, anchored to the button with CSS anchor positioning.
+          </div>
         </div>
 
-        <div class="select-card">
-          <p class="select-card__label">2. Rich HTML inside &lt;option&gt;</p>
-          <select class="custom-select" name="country">
-            <button type="button">
-              <selectedcontent></selectedcontent>
-            </button>
-            <option value="mx" selected>🇲🇽 Mexico</option>
-            <option value="us">🇺🇸 United States</option>
-            <option value="ar">🇦🇷 Argentina</option>
-            <option value="es">🇪🇸 Spain</option>
-            <option value="jp">🇯🇵 Japan</option>
-          </select>
+        <div class="hint-card">
+          <p class="hint-card__label">2. A link preview (hint popovers work on &lt;a&gt;)</p>
+          <a
+            class="demo-link"
+            id="preview-anchor"
+            href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/popover#hint"
+            interestfor="preview-1"
+            target="_blank"
+            rel="noopener"
+            style="anchor-name: --preview-anchor;"
+          >
+            MDN: popover="hint" ↗
+          </a>
+          <div id="preview-1" popover="hint" class="hint-popover hint-popover--card" style="position-anchor: --preview-anchor;">
+            <p class="hint-popover__title">📖 popover="hint"</p>
+            <p>Hover to preview this link's destination — click it to actually navigate there.</p>
+          </div>
         </div>
 
-        <div class="select-card">
-          <p class="select-card__label">3. &lt;selectedcontent&gt; hides the description</p>
-          <select class="custom-select profile-select" name="profile">
-            <button type="button">
-              <selectedcontent></selectedcontent>
+        <div class="hint-card">
+          <p class="hint-card__label">3. Hints coexist with an open auto popover</p>
+          <button class="demo-btn demo-btn--accent" id="menu-btn" popovertarget="demo-menu" type="button">
+            📂 Open menu
+          </button>
+          <div id="demo-menu" popover="auto" class="menu-popover">
+            <button class="menu-item" id="menu-item-1" interestfor="menu-tip-1" type="button" style="anchor-name: --menu-item-1;">
+              Rename
             </button>
-            <option value="dev" selected>
-              <span class="profile-avatar">🧑‍💻</span>
-              <span class="profile-name">Ada</span>
-              <span class="description">Frontend dev · picks the CSS features</span>
-            </option>
-            <option value="design">
-              <span class="profile-avatar">🎨</span>
-              <span class="profile-name">Grace</span>
-              <span class="description">Designer · draws the confetti</span>
-            </option>
-            <option value="pm">
-              <span class="profile-avatar">🗂️</span>
-              <span class="profile-name">Hedy</span>
-              <span class="description">PM · schedules the 21 days</span>
-            </option>
-          </select>
+            <div id="menu-tip-1" popover="hint" class="hint-popover" style="position-anchor: --menu-item-1;">
+              Renames the current file. This tooltip won't close the menu behind it.
+            </div>
+            <button class="menu-item" id="menu-item-2" interestfor="menu-tip-2" type="button" style="anchor-name: --menu-item-2;">
+              Delete
+            </button>
+            <div id="menu-tip-2" popover="hint" class="hint-popover" style="position-anchor: --menu-item-2;">
+              Deletes the current file — hover away to dismiss just this hint.
+            </div>
+          </div>
+          <p class="hint-note">Open the menu, then hover its items — the menu (an <code>auto</code> popover) stays open the whole time.</p>
         </div>
       </div>
 
-      <pre class="code-block"><code>selectedcontent .description {
-  display: none; /* keep the description in the option, hide it in the button */
-}</code></pre>
-
       <p class="polyfill-note">
-        <code>appearance: base-select</code> has limited browser availability. In browsers without support,
-        every <code>&lt;select&gt;</code> above still works — it just renders as a plain native dropdown,
-        since the extra markup (the wrapping <code>&lt;button&gt;</code> and
-        <code>&lt;selectedcontent&gt;</code>) is simply ignored.
-      </p>
-
-      <p class="polyfill-note">
-        Resources:
-        <a href="https://codepen.io/collection/QWzOWZ" target="_blank" rel="noopener">CodePen collection of select demos</a>
-        ·
-        <a href="https://open-ui.org/components/customizableselect/" target="_blank" rel="noopener">OpenUI Explainer</a>
+        <code>interestfor</code> / <code>popover="hint"</code> have limited browser availability. Where
+        unsupported, this demo falls back to showing/hiding the popovers with <code>mouseenter</code>/
+        <code>focus</code> listeners in JavaScript, so the tooltips and previews above still work everywhere.
       </p>
     </section>
 

@@ -1,17 +1,28 @@
-/* CSS Wrapped 2025 — shared site styles */
+/* CSS Wrapped 2025 — shared site styles
+   Palette: a five-color aurora — lime, gold, deep violet, magenta, pink —
+   kept pure and vivid, set against a quiet near-black/near-cream canvas
+   so the five hues do the talking instead of competing with the ground. */
 
 :root {
   color-scheme: dark;
 
-  --bg: #0b0e14;
-  --bg-alt: #11151f;
-  --bg-raise: #171c29;
-  --fg: #e8ecf4;
-  --muted: #8a93a6;
-  --border: rgba(255, 255, 255, 0.08);
-  --accent: #7c5cff;
-  --accent-2: #22d3ee;
-  --shadow: rgba(0, 0, 0, 0.35);
+  /* The five signature hues, used verbatim across gradients, blobs and
+     per-card accents so the palette stays recognizable everywhere. */
+  --lime: #a5db7b;
+  --gold: #d3c977;
+  --violet: #472d90;
+  --magenta: #9c4999;
+  --pink: #d985b1;
+
+  --bg: #120b22;
+  --bg-alt: #1c1435;
+  --bg-raise: #281c48;
+  --fg: #f6f1fb;
+  --muted: #b3a3d4;
+  --border: rgba(211, 201, 119, 0.16);
+  --accent: var(--magenta);
+  --accent-2: var(--lime);
+  --shadow: rgba(10, 5, 25, 0.45);
 
   --card-radius: 14px;
   --max-width: 960px;
@@ -22,15 +33,15 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --bg: #f5f6fb;
-  --bg-alt: #ffffff;
-  --bg-raise: #eef0f8;
-  --fg: #1b1f2a;
-  --muted: #5b6270;
-  --border: rgba(15, 20, 30, 0.08);
-  --accent: #6d3bff;
-  --accent-2: #0891a8;
-  --shadow: rgba(30, 34, 54, 0.12);
+  --bg: #fbf7ec;
+  --bg-alt: #fffdf9;
+  --bg-raise: #f3ead4;
+  --fg: #2b1a52;
+  --muted: #6e5a8f;
+  --border: rgba(71, 45, 144, 0.14);
+  --accent: var(--violet);
+  --accent-2: var(--magenta);
+  --shadow: rgba(71, 45, 144, 0.16);
 }
 
 * {
@@ -42,6 +53,7 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   background: var(--bg);
   color: var(--fg);
@@ -50,28 +62,86 @@ body {
   transition: background-color var(--theme-transition), color var(--theme-transition);
 }
 
+/* A whisper of film grain over everything — the kind of tactile texture
+   that keeps a bold flat palette from feeling like plastic. Self-contained
+   (a tiny inline SVG turbulence filter), inert, and nearly invisible. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 header.site-header {
-  padding: 3rem 1.5rem 2rem;
+  position: relative;
+  z-index: 1;
+  padding: 4rem 1.5rem 3.5rem;
   text-align: center;
-  background: radial-gradient(circle at 50% 0%, var(--bg-alt), var(--bg));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 15%, color-mix(in oklab, var(--violet) 55%, transparent), transparent 45%),
+    radial-gradient(circle at 85% 10%, color-mix(in oklab, var(--pink) 45%, transparent), transparent 42%),
+    radial-gradient(circle at 90% 80%, color-mix(in oklab, var(--gold) 35%, transparent), transparent 40%),
+    radial-gradient(circle at 8% 85%, color-mix(in oklab, var(--lime) 35%, transparent), transparent 40%),
+    var(--bg);
+  background-size: 180% 180%;
+  animation: aurora-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift {
+  from {
+    background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 0 0;
+  }
+  to {
+    background-position: 8% 6%, 92% 8%, 94% 92%, 6% 94%, 0 0;
+  }
+}
+
+/* A hand-cut scalloped edge where the header meets the page — the kind
+   of small imperfection that makes a flat gradient feel crafted. */
+header.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 22px;
+  background: radial-gradient(circle at 11px -7px, transparent 12px, var(--bg) 13px) 0 0 / 22px 22px repeat-x;
 }
 
 header.site-header h1 {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  margin: 0 0 0.5rem;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  position: relative;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+  background: linear-gradient(
+    100deg,
+    var(--violet) 0%,
+    var(--magenta) 32%,
+    var(--pink) 52%,
+    var(--gold) 74%,
+    var(--lime) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 header.site-header p {
+  position: relative;
   color: var(--muted);
   max-width: 640px;
   margin: 0 auto;
 }
 
 main {
+  position: relative;
+  z-index: 1;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
@@ -84,6 +154,11 @@ main {
 }
 
 .day-card {
+  /* Each card claims one of the five signature hues, in rotation —
+     a small Wrapped-style confetti of color across the whole grid. */
+  --card-hue: var(--magenta);
+
+  position: relative;
   display: block;
   padding: 1.25rem;
   border-radius: var(--card-radius);
@@ -91,28 +166,136 @@ main {
   border: 1px solid var(--border);
   text-decoration: none;
   color: var(--fg);
-  transition: transform 0.15s ease, border-color 0.15s ease, background-color var(--theme-transition);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.15s ease,
+    background-color var(--theme-transition), box-shadow 0.2s ease;
 }
 
-.day-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent);
+.day-card:nth-of-type(5n + 1) {
+  --card-hue: var(--violet);
+}
+.day-card:nth-of-type(5n + 2) {
+  --card-hue: var(--magenta);
+}
+.day-card:nth-of-type(5n + 3) {
+  --card-hue: var(--pink);
+}
+.day-card:nth-of-type(5n + 4) {
+  --card-hue: var(--gold);
+}
+.day-card:nth-of-type(5n + 5) {
+  --card-hue: var(--lime);
+}
+
+/* A soft blurred glow tucked in the corner — an organic, hand-placed
+   accent rather than a hard-edged decoration. */
+.day-card::before {
+  content: "";
+  position: absolute;
+  top: -1.5rem;
+  right: -1.5rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: var(--card-hue);
+  opacity: 0.22;
+  filter: blur(18px);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.day-card:hover,
+.day-card:focus-visible {
+  transform: translateY(-4px) rotate(var(--card-tilt, -0.6deg));
+  border-color: var(--card-hue);
+  box-shadow: 0 18px 36px var(--shadow);
+}
+
+.day-card:nth-of-type(even) {
+  --card-tilt: 0.6deg;
+}
+
+.day-card:hover::before,
+.day-card:focus-visible::before {
+  opacity: 0.4;
+  transform: scale(1.15);
 }
 
 .day-card .day-number {
-  font-size: 0.8rem;
-  color: var(--accent-2);
-  letter-spacing: 0.08em;
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: #fff;
+  background: color-mix(in oklab, var(--card-hue) 85%, black);
 }
 
 .day-card .day-title {
+  display: block;
   font-size: 1rem;
   font-weight: 600;
-  margin-top: 0.35rem;
+  margin-top: 0.55rem;
+}
+
+/* ---------------------------------------------------------------- */
+/* Category cue — a purely additive marker for cards that belong to  */
+/* a named group (currently: "Customizable Components"). It must     */
+/* never shift the card's own layout, so everything here is either   */
+/* an inset shadow (doesn't affect box size) or an absolutely         */
+/* positioned, pointer-events: none overlay that only appears on     */
+/* hover/focus, floating above the card rather than pushing into it.  */
+/* ---------------------------------------------------------------- */
+
+.day-card[data-category] {
+  position: relative;
+  box-shadow: inset 3px 0 0 0 color-mix(in oklab, var(--accent-2) 70%, var(--accent));
+}
+
+.day-card[data-category]:hover,
+.day-card[data-category]:focus-visible {
+  box-shadow: inset 4px 0 0 0 color-mix(in oklab, var(--accent-2) 70%, var(--accent));
+}
+
+.day-card[data-category]::after {
+  content: attr(data-category-label);
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 5;
+  white-space: nowrap;
+  pointer-events: none;
+
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 10px 24px var(--shadow);
+
+  opacity: 0;
+  transform: translate(-50%, -100%) translateY(-0.35rem) scale(0.94);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.day-card[data-category]:hover::after,
+.day-card[data-category]:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, -100%) translateY(-0.6rem) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-card[data-category]::after {
+    transition: opacity 0.2s ease;
+    transform: translate(-50%, -100%) translateY(-0.6rem) scale(1);
+  }
 }
 
 footer.site-footer {
+  position: relative;
+  z-index: 1;
   text-align: center;
   color: var(--muted);
   padding: 2rem 1.5rem 3rem;
@@ -121,6 +304,15 @@ footer.site-footer {
 
 footer.site-footer a {
   color: var(--accent-2);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: color-mix(in oklab, var(--accent-2) 60%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
+}
+
+footer.site-footer a:hover {
+  text-decoration-color: var(--accent-2);
 }
 
 /* ---------------------------------------------------------------- */
@@ -144,8 +336,8 @@ footer.site-footer a {
   cursor: pointer;
 
   background:
-    radial-gradient(circle at 15% 50%, rgba(124, 92, 255, 0.35), transparent 60%),
-    radial-gradient(circle at 85% 50%, rgba(34, 211, 238, 0.35), transparent 60%),
+    radial-gradient(circle at 15% 50%, color-mix(in oklab, var(--violet) 55%, transparent), transparent 60%),
+    radial-gradient(circle at 85% 50%, color-mix(in oklab, var(--lime) 55%, transparent), transparent 60%),
     var(--bg-raise);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 8px 20px var(--shadow);
 

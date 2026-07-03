@@ -3,23 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 08 — Wide-gamut colors: oklch() and oklab() | CSS Wrapped 2025</title>
+  <title>Day 08 — Interest invokers | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 08 / 21</p>
-    <h1>Wide-gamut colors: oklch() and oklab()</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Interest invokers</h1>
+    <p>Declarative interest-triggered UI with <code>interestfor</code>.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 32 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Interest_invokers_API" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Interest_invokers_API" target="_blank" rel="noopener">Interest invokers</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Wide-gamut colors: oklch() and oklab()" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        Hover and focus-triggered UI is everywhere on the web, from tooltips to rich hovercards and page
+        previews. While this pattern often works well for mouse users, it can be inaccessible to other
+        modalities like touchscreen. Additionally, developers have to manually implement the logic for each
+        input type, leading to inconsistent experiences.
+      </p>
+
+      <p class="demo-intro">
+        The new <code>interestfor</code> attribute solves this by providing a native, declarative way to
+        style an element when users "show interest" in it without fully activating it. It's invoked
+        similarly to the <code>commandfor</code> attribute, but instead of a click, <code>interestfor</code>
+        is activated when a user "shows interest" in an element — such as by hovering over it with a mouse or
+        focusing it with a keyboard. When paired with <code>popover="hint"</code>, it becomes incredibly easy
+        to create layered UI elements like tooltips and hovercards without any custom JavaScript.
+      </p>
+
+      <pre class="code-block"><code>&lt;button interestfor="callout-1"&gt;&lt;/button&gt;
+
+&lt;div id="callout-1" popover="hint"&gt;
+  Product callout information here.
+&lt;/div&gt;</code></pre>
+
+      <p class="demo-intro">
+        Note: unlike command invokers, which only work on <code>&lt;button&gt;</code> elements, interest
+        invokers can be set on links (<code>&lt;a&gt;</code> tags) as well as buttons.
+      </p>
+
+      <p class="demo-intro">
+        Here's a demo that uses <code>interestfor</code> to create product callouts on an image. Hovering
+        over the buttons on the image will reveal more information about each product.
+      </p>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <div class="product-shot">
+        <div class="product-scene">🪐🛰️☄️</div>
+
+        <button class="hotspot" style="--x: 18%; --y: 30%;" interestfor="callout-saturn" type="button" aria-label="Saturn">
+          <span class="hotspot__dot"></span>
+        </button>
+        <div id="callout-saturn" popover="hint" class="callout">
+          <p class="callout__title">🪐 Saturn</p>
+          <p>Famous for its dazzling ring system, made of ice and rock debris.</p>
+        </div>
+
+        <button class="hotspot" style="--x: 52%; --y: 55%;" interestfor="callout-satellite" type="button" aria-label="Satellite">
+          <span class="hotspot__dot"></span>
+        </button>
+        <div id="callout-satellite" popover="hint" class="callout">
+          <p class="callout__title">🛰️ Satellite</p>
+          <p>Relays signals from orbit — GPS, weather, and internet all ride on these.</p>
+        </div>
+
+        <button class="hotspot" style="--x: 82%; --y: 25%;" interestfor="callout-comet" type="button" aria-label="Comet">
+          <span class="hotspot__dot"></span>
+        </button>
+        <div id="callout-comet" popover="hint" class="callout">
+          <p class="callout__title">☄️ Comet</p>
+          <p>A ball of ice and dust that grows a glowing tail when it nears the sun.</p>
+        </div>
+      </div>
+
+      <h3 class="demo-subheading">Interest delays</h3>
+      <p class="demo-intro">
+        One additional new feature that landed with interest invokers is the ability to set
+        <strong>interest-delays</strong>. This prevents an interest-invoked element from getting triggered
+        too prematurely. You can set a delay to both open and close the interest invoker using the
+        <code>interest-delay</code> property, which accepts a time-based value. 0.5 seconds is the default,
+        but you can speed it up:
+      </p>
+
+      <pre class="code-block"><code>/* applies an updated delay timing value on the interest-invoking button */
+[interestfor] {
+  interest-delay: 0.2s;
+}</code></pre>
+
+      <p class="demo-intro">
+        The hotspots above use a shorter <code>interest-delay: 0.15s</code> so the callouts feel snappy while
+        you're scanning across the image.
+      </p>
+
+      <p class="polyfill-note">
+        <code>interestfor</code> has limited browser availability. Where unsupported, this demo falls back to
+        showing/hiding the callouts with hover/focus listeners in JavaScript, so it still works everywhere.
+      </p>
+
+      <p class="polyfill-note">
+        Resources:
+        <a href="https://open-ui.org/components/interest-invokers.explainer/" target="_blank" rel="noopener">Open UI explainer</a>
+        ·
+        <a href="https://github.com/keithamus/interestfor-polyfill" target="_blank" rel="noopener">interestfor Polyfill</a>
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>

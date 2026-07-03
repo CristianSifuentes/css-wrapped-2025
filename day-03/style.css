@@ -1,4 +1,4 @@
-/* Day 03 — Customizable select
+/* Day 03 — popover="hint"
    Styles specific to this day's demo. */
 
 .baseline-badge {
@@ -51,7 +51,6 @@
 }
 
 .demo-intro code,
-.command-reference code,
 .polyfill-note code {
   background: var(--bg-alt);
   border: 1px solid var(--border);
@@ -68,44 +67,6 @@
   overflow-x: auto;
   font-size: 0.85rem;
   line-height: 1.6;
-}
-
-.command-reference {
-  margin: 2rem 0;
-  padding: 1.25rem 1.5rem;
-  border-radius: var(--card-radius);
-  background: var(--bg-alt);
-  border: 1px solid var(--border);
-}
-
-.command-reference__title {
-  margin: 0 0 0.75rem;
-  font-weight: 600;
-  color: var(--muted);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.command-reference dl {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.75rem 1.5rem;
-  margin: 0;
-}
-
-.command-reference dl > div {
-  border-bottom: 1px dashed var(--border);
-  padding-bottom: 0.6rem;
-}
-
-.command-reference dt {
-  margin-bottom: 0.2rem;
-}
-
-.command-reference dd {
-  margin: 0;
-  color: var(--muted);
 }
 
 .support-status {
@@ -129,166 +90,147 @@
 }
 
 /* ---------------------------------------------------------------- */
-/* Select gallery — one card per demo                                 */
+/* Demo gallery                                                       */
 /* ---------------------------------------------------------------- */
 
-.select-gallery {
+.hint-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.25rem;
   margin: 1.5rem 0 2rem;
 }
 
-.select-card {
+.hint-card {
   padding: 1.25rem;
   border-radius: var(--card-radius);
   border: 1px solid var(--border);
   background: var(--bg-alt);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
-.select-card__label {
-  margin: 0 0 0.75rem;
+.hint-card__label {
+  margin: 0;
   font-size: 0.85rem;
   color: var(--muted);
 }
 
-/* ---------------------------------------------------------------- */
-/* Baseline styling — applies everywhere, even without base-select   */
-/* support, so the native <select> still looks intentional.          */
-/* ---------------------------------------------------------------- */
+.hint-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
 
-.custom-select {
-  width: 100%;
-  font: inherit;
+.demo-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--fg);
   background: var(--bg-raise);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 0.65rem 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.demo-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-2);
+}
+
+.demo-btn--accent {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.demo-link {
+  color: var(--accent-2);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.demo-link:hover {
+  text-decoration: underline;
 }
 
 /* ---------------------------------------------------------------- */
-/* base-select — the real customization, gated behind @supports so   */
-/* browsers without it just keep the plain native dropdown above.    */
+/* Hint popovers — plain, centered fallback position by default so   */
+/* the demo still works even without anchor positioning support.     */
 /* ---------------------------------------------------------------- */
 
-@supports (appearance: base-select) {
-  select.custom-select,
-  .custom-select::picker(select) {
-    appearance: base-select;
-  }
+.hint-popover {
+  max-width: 20rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-raise);
+  color: var(--fg);
+  font-size: 0.85rem;
+  box-shadow: 0 16px 32px var(--shadow);
+}
 
-  .custom-select {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    transition: border-color 0.15s ease, background-color 0.15s ease;
-  }
+.hint-popover--card {
+  max-width: 22rem;
+}
 
-  .custom-select:hover,
-  .custom-select:focus-visible {
-    border-color: var(--accent-2);
-  }
+.hint-popover__title {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+}
 
-  .custom-select::picker-icon {
-    color: var(--muted);
-    transition: rotate 0.2s ease;
-  }
+.hint-popover p {
+  margin: 0 0 0.35rem;
+}
 
-  .custom-select:open::picker-icon {
-    rotate: 180deg;
-  }
+.hint-popover p:last-child {
+  margin-bottom: 0;
+}
 
-  .custom-select::picker(select) {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--bg-raise);
-    box-shadow: 0 20px 45px var(--shadow);
-    padding: 0.4rem;
-    margin-block-start: 0.4rem;
+.menu-popover {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  box-shadow: 0 20px 45px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 10rem;
+}
 
-    transition: opacity 0.18s ease, transform 0.18s ease, display 0.18s allow-discrete,
-      overlay 0.18s allow-discrete;
-    opacity: 0;
-    transform: translateY(-6px) scale(0.98);
+.menu-item {
+  appearance: none;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  font: inherit;
+  color: var(--fg);
+  background: transparent;
+  cursor: pointer;
+}
 
-    &:popover-open {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+.menu-item:hover,
+.menu-item:focus-visible {
+  background: var(--bg-raise);
+}
 
-    @starting-style {
-      &:popover-open {
-        opacity: 0;
-        transform: translateY(-6px) scale(0.98);
-      }
-    }
-  }
+/* ---------------------------------------------------------------- */
+/* CSS Anchor Positioning — anchors each hint popover to the exact    */
+/* element that triggered it. Gated behind @supports so browsers      */
+/* without it just get the popover's default (centered) placement.   */
+/* ---------------------------------------------------------------- */
 
-  .custom-select option {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.55rem 0.7rem;
-    border-radius: 8px;
-    color: var(--fg);
-
-    &:hover,
-    &:focus-visible {
-      background: var(--bg-alt);
-    }
-
-    &:checked {
-      background: color-mix(in oklab, var(--accent) 18%, transparent);
-    }
-  }
-
-  .custom-select option::checkmark {
-    order: 1;
-    margin-inline-start: auto;
-    color: var(--accent-2);
-  }
-
-  .swatch {
-    display: inline-block;
-    width: 0.9rem;
-    height: 0.9rem;
-    border-radius: 50%;
-    background: var(--swatch, currentColor);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
-  }
-
-  .profile-select option {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .profile-avatar {
-    font-size: 1.3rem;
-    margin-inline-end: 0.4rem;
-  }
-
-  .profile-name {
-    font-weight: 600;
-  }
-
-  .description {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--muted);
-  }
-
-  /* The button shows a slimmer summary: hide the description there,
-     keep it visible in the open dropdown's options. */
-  selectedcontent .description {
-    display: none;
-  }
-
-  selectedcontent {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+@supports (anchor-name: --a) {
+  .hint-popover {
+    position: fixed;
+    position-area: bottom span-all;
+    margin-block-start: 0.5rem;
+    inset: auto;
   }
 }
