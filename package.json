@@ -1,0 +1,19 @@
+{
+  "name": "css-wrapped-2025",
+  "version": "1.0.0",
+  "description": "21 most important CSS novelties of 2025, one demo per day.",
+  "private": true,
+  "scripts": {
+    "start": "live-server",
+    "serve": "live-server --port=8080"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "author": "Cristian Sifuentes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CristianSifuentes/css-wrapped-2025.git"
+  }
+}
