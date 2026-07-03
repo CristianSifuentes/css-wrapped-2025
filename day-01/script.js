@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function burstConfetti(stage, count = 24) {
-  const colors = ["#7c5cff", "#22d3ee", "#ff8fa3", "#ffd166", "#4ade80"];
+  const colors = ["#472d90", "#9c4999", "#d985b1", "#d3c977", "#a5db7b"];
 
   for (let i = 0; i < count; i++) {
     const piece = document.createElement("span");
