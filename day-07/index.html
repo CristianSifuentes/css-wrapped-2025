@@ -3,23 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 07 — Popover API and [popover] | CSS Wrapped 2025</title>
+  <title>Day 07 — Anchored container queries | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 07 / 21</p>
-    <h1>Popover API and [popover]</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Anchored container queries</h1>
+    <p>Style elements based on their anchor position.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 22 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/anchor-position-container-queries" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/anchor-position-container-queries" target="_blank" rel="noopener">Anchor position container queries</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Popover API and [popover]" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        Last year's CSS Wrapped covered CSS anchor positioning: an exciting update that changes the way you
+        can position elements relative to each other. Since that coverage, it became part of Interop 2025,
+        and browser support expanded.
+      </p>
+
+      <p class="demo-intro">
+        However, while CSS could move an element to a fallback position, it had no way of knowing
+        <em>which</em> fallback was chosen. This meant that if your tooltip flipped from the bottom to the
+        top of the screen, the arrow would still be pointing the wrong way. This is now resolved with
+        <strong>anchored container queries</strong>.
+      </p>
+
+      <div class="command-reference">
+        <p class="command-reference__title">Anchor queries in two steps</p>
+        <dl>
+          <div>
+            <dt><code>container-type: anchored</code></dt>
+            <dd>Applied to the positioned element (your tooltip), making it "aware" of its anchor position fallback.</dd>
+          </div>
+          <div>
+            <dt><code>@container anchored(fallback: …)</code></dt>
+            <dd>Styles any child of the positioned element based on the active fallback — a custom name, or a browser default like <code>flip-block</code>/<code>flip-inline</code>.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <p class="demo-intro">
+        Here's a quick demo of how you can use anchored container queries to automatically flip a tooltip's
+        arrow when its position changes:
+      </p>
+
+      <pre class="code-block"><code>/* The element our tooltip is anchored to */
+.anchor {
+  anchor-name: --my-anchor;
+}
+
+/* The positioned element (tooltip) */
+.tooltip {
+  position: fixed;
+  position-anchor: --my-anchor;
+  position-area: bottom;
+  position-try-fallbacks: flip-block;
+
+  /* Make it an anchored query container */
+  container-type: anchored;
+
+  &::before {
+    content: '▲'; /* default "up" arrow */
+    position: absolute;
+    bottom: 100%;
+  }
+}
+
+/* Use the anchored query to check the fallback */
+@container anchored(fallback: flip-block) {
+  .tooltip::before {
+    content: '▼'; /* the top fallback was used, so flip the arrow */
+    bottom: auto;
+    top: 100%;
+  }
+}</code></pre>
+
+      <p class="demo-intro">
+        This is a huge win for anchor positioning and component libraries, enabling more robust,
+        self-contained UI elements with less code.
+      </p>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        The stage below is its own small "viewport": move the anchor button to the bottom and hover it — the
+        tooltip runs out of room underneath, flips above the button, and its arrow flips right along with it.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <label class="demo-toggle">
+        <input type="checkbox" id="force-flip-toggle" />
+        Push the anchor to the bottom edge of the stage
+      </label>
+
+      <div class="anchor-stage" id="anchor-stage">
+        <button class="anchor" id="tooltip-anchor" type="button">
+          Hover or focus me
+        </button>
+        <div class="tooltip" id="my-tooltip" role="tooltip">
+          I'm anchored to the button — watch my arrow flip.
+        </div>
+      </div>
+
+      <p class="polyfill-note">
+        Anchored container queries have limited browser availability. Where <code>container-type: anchored</code>
+        isn't supported, the tooltip above still opens on hover/focus in a fixed default position — it just
+        won't reposition or flip its arrow automatically.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
