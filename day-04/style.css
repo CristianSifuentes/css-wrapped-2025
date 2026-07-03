@@ -1,2 +1,205 @@
-/* Day 04 — Container Queries (size)
+/* Day 04 — ::scroll-marker / ::scroll-button()
    Styles specific to this day's demo. */
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-subheading {
+  margin-top: 2rem;
+  font-size: 1.05rem;
+  color: var(--accent-2);
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-note {
+  max-width: 68ch;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid #ffb703;
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.9rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.demo-intro code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Carousel — a plain scroll-snapping list, usable everywhere even   */
+/* without ::scroll-button()/::scroll-marker() support.              */
+/* ---------------------------------------------------------------- */
+
+.carousel {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1rem 0.5rem;
+  list-style: none;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+
+.carousel__item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+
+  display: grid;
+  place-items: center;
+  width: 9rem;
+  height: 9rem;
+  border-radius: var(--card-radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(160deg, var(--card, var(--accent)), color-mix(in oklab, var(--card, var(--accent)) 60%, black));
+  box-shadow: 0 16px 32px var(--shadow);
+}
+
+/* ---------------------------------------------------------------- */
+/* Native scroll buttons + markers, only where the browser actually  */
+/* understands the selectors — feature-detected with @supports       */
+/* selector(...) so unsupported browsers get none of this CSS.       */
+/* ---------------------------------------------------------------- */
+
+@supports selector(::scroll-button(*)) {
+  .carousel::scroll-button(left) {
+    content: "⬅" / "Scroll left";
+  }
+
+  .carousel::scroll-button(right) {
+    content: "⮕" / "Scroll right";
+  }
+
+  .carousel::scroll-button(left),
+  .carousel::scroll-button(right) {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    color: var(--fg);
+    cursor: pointer;
+  }
+
+  .carousel::scroll-button(left):disabled,
+  .carousel::scroll-button(right):disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}
+
+@supports selector(::scroll-marker) {
+  .carousel {
+    scroll-marker-group: after;
+  }
+
+  .carousel::scroll-marker-group {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-block-start: 0.75rem;
+  }
+
+  .carousel__item::scroll-marker {
+    content: " ";
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+  }
+
+  .carousel__item::scroll-marker:target-current {
+    background: var(--accent-2);
+    border-color: var(--accent-2);
+  }
+}
