@@ -1,4 +1,4 @@
-# 🎁 CSS Wrapped 2025
+# CSS Wrapped 2025
 
 <div align="center">
 
@@ -13,7 +13,7 @@ Perfect for frontend devs who want to stay up to date 🚀 and master the latest
 
 ---
 
-## ✨ About the project
+## About the project
 
 `CSS Wrapped 2025` is a series of 21 mini-demos in plain HTML, CSS and JS, one for each CSS novelty.
 Each day lives in its own folder (`day-01`, `day-02`, … `day-21`) with its own `index.html`, `style.css` and `script.js`, so each feature can be explored in isolation and easily reproduced.
@@ -32,7 +32,7 @@ _CSSWrapped2025/
 
 ---
 
-## 📚 Table of contents
+## Table of contents
 
 <div align="center">
 
@@ -66,7 +66,7 @@ _CSSWrapped2025/
 
 ---
 
-## 🚀 Run the demos locally
+## Run the demos locally
 
 ```bash
 git clone https://github.com/CristianSifuentes/css-wrapped-2025.git
@@ -74,13 +74,13 @@ cd css-wrapped-2025
 open index.html   # or serve it statically, e.g.: npx serve .
 ```
 
-## 🛠️ Stack
+## Stack
 
 - Semantic HTML5
 - CSS3 (one demo per new 2025 feature)
 - Vanilla JavaScript (no frameworks, no build step)
 
-## 👤 Author
+## Author
 
 **Cristian Sifuentes** — [github.com/CristianSifuentes](https://github.com/CristianSifuentes)
 
