@@ -74,6 +74,23 @@ cd css-wrapped-2025
 open index.html   # or serve it statically, e.g.: npx serve .
 ```
 
+### Using live-server (recommended, with hot reload)
+
+```bash
+# Install live-server
+npm install -g live-server
+
+# Start live-server
+live-server
+```
+
+Or, without a global install, via the npm scripts in this repo:
+
+```bash
+npm install
+npm start
+```
+
 ## Stack
 
 - Semantic HTML5
