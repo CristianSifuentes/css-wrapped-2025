@@ -3,23 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 02 — @scope: true-scoped styles | CSS Wrapped 2025</title>
+  <title>Day 02 — Dialog Light Dismiss | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 02 / 21</p>
-    <h1>@scope: true-scoped styles</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Dialog Light Dismiss</h1>
+    <p>Bringing a nice Popover API feature to <code>&lt;dialog&gt;</code>.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 66 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#closedby" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#closedby" target="_blank" rel="noopener"><code>&lt;dialog closedby&gt;</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "@scope: true-scoped styles" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        One of the nice features introduced by the Popover API is the <strong>light dismiss</strong> behavior
+        of popovers. This lets users close a popover by clicking outside of it — on the
+        <code>::backdrop</code> — or by pressing the <kbd>Esc</kbd> key.
+      </p>
+
+      <p class="demo-intro">
+        From Chrome 134, this light dismiss behavior is also available on <code>&lt;dialog&gt;</code>,
+        through the new <code>closedby</code> attribute, which controls the behavior:
+      </p>
+
+      <div class="command-reference">
+        <p class="command-reference__title"><code>closedby</code> values</p>
+        <dl>
+          <div>
+            <dt><code>closedby="none"</code></dt>
+            <dd>No user-triggered closing at all. This is the default.</dd>
+          </div>
+          <div>
+            <dt><code>closedby="closerequest"</code></dt>
+            <dd>Pressing <kbd>Esc</kbd> (or another close trigger) closes the dialog.</dd>
+          </div>
+          <div>
+            <dt><code>closedby="any"</code></dt>
+            <dd>Clicking outside the dialog, or pressing <kbd>Esc</kbd>, closes it — like <code>popover="auto"</code>.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <pre class="code-block"><code>&lt;dialog closedby="none"&gt;…&lt;/dialog&gt;        &lt;!-- default: only a close() call can close it --&gt;
+&lt;dialog closedby="closerequest"&gt;…&lt;/dialog&gt; &lt;!-- Esc closes it --&gt;
+&lt;dialog closedby="any"&gt;…&lt;/dialog&gt;         &lt;!-- Esc or a click on the backdrop closes it --&gt;</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Open each dialog below, then try pressing <kbd>Esc</kbd> and clicking on the dimmed backdrop to feel
+        the difference between the three <code>closedby</code> values.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <div class="demo-stage">
+        <button class="demo-btn" type="button" data-open-dialog="dialog-none">
+          🔒 closedby="none"
+        </button>
+        <button class="demo-btn" type="button" data-open-dialog="dialog-closerequest">
+          ⎋ closedby="closerequest"
+        </button>
+        <button class="demo-btn demo-btn--accent" type="button" data-open-dialog="dialog-any">
+          🖱️ closedby="any"
+        </button>
+      </div>
+
+      <dialog id="dialog-none" class="light-dismiss-dialog" closedby="none">
+        <h3>closedby="none"</h3>
+        <p>Esc and backdrop clicks do nothing here — this is the default behavior. You must use the button below.</p>
+        <button type="button" data-close-dialog class="demo-btn demo-btn--ghost">Close</button>
+      </dialog>
+
+      <dialog id="dialog-closerequest" class="light-dismiss-dialog" closedby="closerequest">
+        <h3>closedby="closerequest"</h3>
+        <p>Press <kbd>Esc</kbd> to close me. Clicking the backdrop won't do anything.</p>
+        <button type="button" data-close-dialog class="demo-btn demo-btn--ghost">Close</button>
+      </dialog>
+
+      <dialog id="dialog-any" class="light-dismiss-dialog" closedby="any">
+        <h3>closedby="any"</h3>
+        <p>Press <kbd>Esc</kbd> <em>or</em> click outside this dialog — on the backdrop — to close it.</p>
+        <button type="button" data-close-dialog class="demo-btn demo-btn--ghost">Close</button>
+      </dialog>
+
+      <p class="polyfill-note">
+        <code>closedby</code> has limited browser availability. This demo detects support and falls back to
+        manually wiring <kbd>Esc</kbd>/backdrop-click handling with JavaScript when the attribute isn't
+        recognized, so the behavior above still works everywhere.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
