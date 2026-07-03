@@ -1,17 +1,39 @@
-// Day 08 — Scroll-state queries
-// No JavaScript drives the demos themselves — snapping, sticking, and
-// overflow detection are all native browser/CSS behavior. This only
-// feature-detects `container-type: scroll-state` and reports it.
+// Day 08 — Interest invokers
+// Feature-detects `interestfor` (interest invokers) support. Where it's
+// missing, wires up the same hover/focus-to-open behavior by hand, so the
+// product callouts above still work everywhere.
 
-const supportsScrollState =
-  typeof CSS !== "undefined" && CSS.supports("container-type", "scroll-state");
+const supportsInterestFor = "interestForElement" in HTMLButtonElement.prototype;
 
 document.addEventListener("DOMContentLoaded", () => {
   const status = document.querySelector("#support-status");
-  if (!status) return;
+  if (status) {
+    status.textContent = supportsInterestFor
+      ? "✅ Your browser supports interestfor natively — the callouts above use interest-delay."
+      : "⏳ No native support detected — callouts are polyfilled with hover/focus listeners.";
+    status.classList.add(supportsInterestFor ? "ok" : "nok");
+  }
 
-  status.textContent = supportsScrollState
-    ? "✅ Your browser supports container-type: scroll-state — all three demos react live."
-    : "⏳ No native support detected — the demos below still scroll and snap, just without the automatic dimming, badge, or hint.";
-  status.classList.add(supportsScrollState ? "ok" : "nok");
+  if (supportsInterestFor) return;
+
+  document.querySelectorAll("[interestfor]").forEach((trigger) => {
+    const popover = document.querySelector(`#${trigger.getAttribute("interestfor")}`);
+    if (!popover) return;
+
+    let hideTimer = null;
+    const open = () => {
+      clearTimeout(hideTimer);
+      popover.showPopover?.();
+    };
+    const scheduleClose = () => {
+      hideTimer = setTimeout(() => popover.hidePopover?.(), 150);
+    };
+
+    trigger.addEventListener("mouseenter", open);
+    trigger.addEventListener("focus", open);
+    trigger.addEventListener("mouseleave", scheduleClose);
+    trigger.addEventListener("blur", scheduleClose);
+    popover.addEventListener("mouseenter", () => clearTimeout(hideTimer));
+    popover.addEventListener("mouseleave", scheduleClose);
+  });
 });
