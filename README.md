@@ -39,7 +39,7 @@ _CSSWrapped2025/
 | 📅 Day | ✨ CSS Novelty | Status |
 |:---:|---|:---:|
 | 🗓️ **01** | [Native CSS Nesting](./day-01/index.html) | ⏳ Coming soon |
-| 🗓️ **02** | [`@scope`: true-scoped styles](./day-02/index.html) | ⏳ Coming soon |
+| 🗓️ **02** | [Dialog Light Dismiss (`<dialog closedby>`)](./day-02/index.html) | ⏳ Coming soon |
 | 🗓️ **03** | [`:has()` the parent selector](./day-03/index.html) | ⏳ Coming soon |
 | 🗓️ **04** | [Container Queries (size)](./day-04/index.html) | ⏳ Coming soon |
 | 🗓️ **05** | [Container Style Queries](./day-05/index.html) | ⏳ Coming soon |
