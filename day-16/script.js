@@ -1,2 +1,2 @@
-// Día 16 — Selectores anidados con &
-// Script específico de la demo de este día.
+// Day 16 — Nested selectors with &
+// Script specific to this day's demo.

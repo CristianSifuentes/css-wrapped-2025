@@ -1,2 +1,2 @@
-// Día 09 — color-mix() para mezclar colores
-// Script específico de la demo de este día.
+// Day 09 — color-mix() for blending colors
+// Script specific to this day's demo.

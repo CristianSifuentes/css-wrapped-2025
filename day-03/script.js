@@ -1,2 +1,2 @@
-// Día 03 — :has() el selector padre
-// Script específico de la demo de este día.
+// Day 03 — :has() the parent selector
+// Script specific to this day's demo.

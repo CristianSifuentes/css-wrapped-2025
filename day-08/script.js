@@ -1,2 +1,2 @@
-// Día 08 — Colores wide-gamut: oklch() y oklab()
-// Script específico de la demo de este día.
+// Day 08 — Wide-gamut colors: oklch() and oklab()
+// Script specific to this day's demo.

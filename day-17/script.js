@@ -1,2 +1,2 @@
-// Día 17 — field-sizing y formularios modernos
-// Script específico de la demo de este día.
+// Day 17 — field-sizing and modern forms
+// Script specific to this day's demo.

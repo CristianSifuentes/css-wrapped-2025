@@ -1,2 +1,2 @@
-// Día 18 — CSS Grid Masonry
-// Script específico de la demo de este día.
+// Day 18 — CSS Grid Masonry
+// Script specific to this day's demo.

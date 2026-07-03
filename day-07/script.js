@@ -1,2 +1,2 @@
-// Día 07 — Popover API y [popover]
-// Script específico de la demo de este día.
+// Day 07 — Popover API and [popover]
+// Script specific to this day's demo.

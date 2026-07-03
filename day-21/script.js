@@ -1,2 +1,2 @@
-// Día 21 — Unidades de contenedor (cqw, cqh, cqi)
-// Script específico de la demo de este día.
+// Day 21 — Container units (cqw, cqh, cqi)
+// Script specific to this day's demo.

@@ -1,2 +1,2 @@
-// Día 12 — text-wrap: balance y pretty
-// Script específico de la demo de este día.
+// Day 12 — text-wrap: balance and pretty
+// Script specific to this day's demo.

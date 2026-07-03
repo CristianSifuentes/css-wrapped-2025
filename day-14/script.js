@@ -1,2 +1,2 @@
-// Día 14 — CSS Grid Subgrid
-// Script específico de la demo de este día.
+// Day 14 — CSS Grid Subgrid
+// Script specific to this day's demo.

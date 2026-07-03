@@ -1,2 +1,2 @@
-// Día 01 — CSS Nesting nativo
-// Script específico de la demo de este día.
+// Day 01 — Native CSS Nesting
+// Script specific to this day's demo.

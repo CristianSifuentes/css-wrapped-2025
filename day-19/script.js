@@ -1,2 +1,2 @@
-// Día 19 — Funciones trigonométricas y exponenciales (sin, cos, pow)
-// Script específico de la demo de este día.
+// Day 19 — Trigonometric and exponential functions (sin, cos, pow)
+// Script specific to this day's demo.

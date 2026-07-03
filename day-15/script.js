@@ -1,2 +1,2 @@
-// Día 15 — Transforms individuales (translate, scale, rotate)
-// Script específico de la demo de este día.
+// Day 15 — Individual transforms (translate, scale, rotate)
+// Script specific to this day's demo.
