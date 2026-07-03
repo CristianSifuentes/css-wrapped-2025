@@ -45,8 +45,8 @@ _CSSWrapped2025/
 | 🗓️ **05** | [`::scroll-marker` / `::scroll-button()`](./day-05/index.html) | ✅ Available |
 | 🗓️ **06** | [`scroll-target-group`](./day-06/index.html) | ✅ Available |
 | 🗓️ **07** | [Anchored container queries](./day-07/index.html) | ✅ Available |
-| 🗓️ **08** | [Scroll-state queries](./day-08/index.html) | ✅ Available |
-| 🗓️ **09** | [`color-mix()` for blending colors](./day-09/index.html) | ⏳ Coming soon |
+| 🗓️ **08** | [Interest invokers](./day-08/index.html) | ✅ Available |
+| 🗓️ **09** | [Scroll-state queries](./day-09/index.html) | ✅ Available |
 | 🗓️ **10** | [`@property`: typed custom properties](./day-10/index.html) | ⏳ Coming soon |
 | 🗓️ **11** | [View Transitions API](./day-11/index.html) | ⏳ Coming soon |
 | 🗓️ **12** | [`text-wrap: balance` and `pretty`](./day-12/index.html) | ⏳ Coming soon |
