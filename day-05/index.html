@@ -3,23 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 05 — Container Style Queries | CSS Wrapped 2025</title>
+  <title>Day 05 — scroll-target-group | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 05 / 21</p>
-    <h1>Container Style Queries</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>scroll-target-group</h1>
+    <p>Turn a list of anchor links into connected scroll-markers.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 20 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-target-group" target="_blank" rel="noopener">MDN</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Container Style Queries" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        In addition to <code>::scroll-button()</code> and <code>::scroll-marker</code>, CSS carousels include
+        another neat feature: <code>scroll-target-group</code>. This designates an element as a container
+        for a group of navigation items, like a table of contents — turning a manually-created list of
+        anchor links into scroll-markers that can navigate the page.
+      </p>
+
+      <p class="demo-intro">
+        Pair <code>scroll-target-group</code> with the <code>:target-current</code> pseudo-class to style
+        the anchor whose target is currently visible. This gives you the power of
+        <code>::scroll-marker</code> from the CSS Carousel API, but with the flexibility of using your own
+        HTML elements as markers — full control over their styling and content.
+      </p>
+
+      <div class="command-reference">
+        <p class="command-reference__title">What you need for a scroll-spy nav</p>
+        <dl>
+          <div>
+            <dt>A list of anchor links</dt>
+            <dd>Each one points to a different section of the page (<code>href="#section-1"</code>, etc.).</dd>
+          </div>
+          <div>
+            <dt><code>scroll-target-group: auto</code></dt>
+            <dd>Applied to the container of those links — no JavaScript scroll listeners required.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <pre class="code-block"><code>&lt;nav class="toc"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#section-1"&gt;Section 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#section-2"&gt;Section 2&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#section-3"&gt;Section 3&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;main&gt;
+  &lt;section id="section-1"&gt;...&lt;/section&gt;
+  &lt;section id="section-2"&gt;...&lt;/section&gt;
+  &lt;section id="section-3"&gt;...&lt;/section&gt;
+&lt;/main&gt;</code></pre>
+
+      <p class="demo-intro">
+        The following CSS creates the <code>scroll-target-group</code>, then styles the table of contents so
+        the link for the section currently in view turns red and bold:
+      </p>
+
+      <pre class="code-block"><code>.toc {
+  scroll-target-group: auto;
+}
+
+.toc a:target-current {
+  color: red;
+  font-weight: bold;
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Scroll the panel below, or click a link in the mini table of contents — watch the active link track
+        whichever section is in view, with no JavaScript involved.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <div class="scrollspy-demo">
+        <nav class="toc">
+          <p class="toc__title">Table of contents</p>
+          <ul>
+            <li><a href="#section-1">🪐 Section 1 — Saturn</a></li>
+            <li><a href="#section-2">🌙 Section 2 — Moon</a></li>
+            <li><a href="#section-3">🚀 Section 3 — Rocket</a></li>
+            <li><a href="#section-4">☄️ Section 4 — Comet</a></li>
+          </ul>
+        </nav>
+
+        <div class="scrollspy-panel">
+          <section id="section-1" class="scrollspy-section" style="--card: var(--accent);">
+            <h3>🪐 Saturn</h3>
+            <p>The ringed giant — mostly hydrogen and helium, with icy rings made of countless small particles.</p>
+          </section>
+          <section id="section-2" class="scrollspy-section" style="--card: var(--accent-2);">
+            <h3>🌙 Moon</h3>
+            <p>Earth's only natural satellite, locked in sync so we always see the same face.</p>
+          </section>
+          <section id="section-3" class="scrollspy-section" style="--card: #ff8fa3;">
+            <h3>🚀 Rocket</h3>
+            <p>Escapes gravity by throwing mass backward really, really fast — Newton's third law, in hardware.</p>
+          </section>
+          <section id="section-4" class="scrollspy-section" style="--card: #ffd166;">
+            <h3>☄️ Comet</h3>
+            <p>A dirty snowball that grows a glowing tail of gas and dust whenever it swings close to the sun.</p>
+          </section>
+        </div>
+      </div>
+
+      <p class="polyfill-note">
+        <code>scroll-target-group</code> has limited browser availability. Where it isn't supported, the
+        links above still work as plain in-page anchors — they just won't highlight themselves as you scroll,
+        so this demo also polyfills the highlight with an <code>IntersectionObserver</code> as a fallback.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
