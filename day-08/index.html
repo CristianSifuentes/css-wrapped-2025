@@ -3,23 +3,147 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 08 — Wide-gamut colors: oklch() and oklab() | CSS Wrapped 2025</title>
+  <title>Day 08 — Scroll-state queries | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 08 / 21</p>
-    <h1>Wide-gamut colors: oklch() and oklab()</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Scroll-state queries</h1>
+    <p>Style descendants based on whether something is scrollable, stuck, or snapped.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 61 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/style-scroll-state-queries" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@container#container_scroll-state_queries" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@container#container_scroll-state_queries" target="_blank" rel="noopener">Container scroll-state queries</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Wide-gamut colors: oklch() and oklab()" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        To determine if an element is stuck, snapped, or scrollable you could use a bunch of JavaScript —
+        which isn't always easy to do, because you have to attach timeouts to scroll events and so on.
+      </p>
+
+      <p class="demo-intro">
+        Thanks to <strong>scroll-state queries</strong> — available from Chrome 133 — you can use CSS to
+        declaratively, and more performantly, style elements in these states.
+      </p>
+
+      <p class="demo-intro">
+        To use a scroll-state query, declare <code>container-type: scroll-state</code> on an element:
+      </p>
+
+      <pre class="code-block"><code>.parent {
+  container-type: scroll-state;
+}</code></pre>
+
+      <p class="demo-intro">
+        Once you have that in place, <em>children</em> of that element can query whether it is in a certain
+        scroll-state:
+      </p>
+
+      <div class="command-reference">
+        <p class="command-reference__title">The three scroll-states</p>
+        <dl>
+          <div>
+            <dt>Stuck</dt>
+            <dd>The element is currently stuck via <code>position: sticky</code>.</dd>
+          </div>
+          <div>
+            <dt>Snapped</dt>
+            <dd>The element is the currently snapped item of a <code>scroll-snap-type</code> container.</dd>
+          </div>
+          <div>
+            <dt>Scrollable</dt>
+            <dd>The element's container is overflowing in a given direction.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <p class="demo-intro">
+        For example, to style the snapped element differently, use the <code>snapped</code> scroll-state
+        query:
+      </p>
+
+      <pre class="code-block"><code>.scroller {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+
+  > div {
+    container-type: scroll-state;
+    scroll-snap-align: center;
+
+    @supports (container-type: scroll-state) {
+      > * {
+        transition: opacity .5s ease;
+
+        @container not scroll-state(snapped: x) {
+          opacity: .25;
+        }
+      }
+    }
+  }
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <h3 class="demo-subheading">1. Snapped — the centered card stays full opacity</h3>
+      <p class="demo-intro">Scroll the row; whichever card is snapped to center stays sharp, the rest fade.</p>
+
+      <ul class="snap-scroller">
+        <li class="snap-item" style="--card: var(--violet);"><div class="snap-card"><span>🪐</span>Saturn</div></li>
+        <li class="snap-item" style="--card: var(--magenta);"><div class="snap-card"><span>🌙</span>Moon</div></li>
+        <li class="snap-item" style="--card: var(--pink);"><div class="snap-card"><span>🚀</span>Rocket</div></li>
+        <li class="snap-item" style="--card: var(--gold);"><div class="snap-card"><span>☄️</span>Comet</div></li>
+        <li class="snap-item" style="--card: var(--lime);"><div class="snap-card"><span>🛰️</span>Satellite</div></li>
+      </ul>
+
+      <h3 class="demo-subheading">2. Stuck — a pinned badge appears the instant a heading sticks</h3>
+      <p class="demo-intro">Scroll this list; each group heading gets a "pinned" badge only while it's actually stuck to the top.</p>
+
+      <div class="stuck-scroller">
+        <div class="stuck-header"><span class="stuck-badge">📌 pinned</span> Group A — Gas giants</div>
+        <p class="stuck-filler">Saturn, Jupiter, Uranus, Neptune — the solar system's big four, mostly hydrogen and helium.</p>
+        <p class="stuck-filler">Saturn's rings are made of countless icy particles, from dust-sized grains to boulders.</p>
+        <div class="stuck-header"><span class="stuck-badge">📌 pinned</span> Group B — Rocky planets</div>
+        <p class="stuck-filler">Mercury, Venus, Earth, Mars — smaller, denser worlds with solid surfaces.</p>
+        <p class="stuck-filler">Mars' rusty color comes from iron oxide covering much of its surface.</p>
+        <div class="stuck-header"><span class="stuck-badge">📌 pinned</span> Group C — Dwarf planets</div>
+        <p class="stuck-filler">Pluto, Ceres, Eris — smaller bodies that share their orbital neighborhood with other objects.</p>
+      </div>
+
+      <h3 class="demo-subheading">3. Scrollable — a hint only shows up when there's actually more to scroll</h3>
+      <p class="demo-intro">Resize your window narrower; the "scroll for more →" hint appears only while the track truly overflows.</p>
+
+      <div class="scrollable-track">
+        <span>Nesting</span><span>@scope</span><span>:has()</span><span>Container queries</span>
+        <span>Anchor positioning</span><span>Popovers</span><span>oklch()</span><span>color-mix()</span>
+        <span class="scrollable-hint">scroll for more →</span>
+      </div>
+
+      <p class="polyfill-note">
+        Scroll-state queries have limited browser availability. Where <code>container-type: scroll-state</code>
+        isn't supported, all three demos above still scroll and snap normally — they just won't dim, badge,
+        or hint automatically.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
