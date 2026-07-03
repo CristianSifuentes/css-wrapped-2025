@@ -3,23 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 06 — CSS Anchor Positioning | CSS Wrapped 2025</title>
+  <title>Day 06 — popover="hint" | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 06 / 21</p>
-    <h1>CSS Anchor Positioning</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>popover="hint"</h1>
+    <p>Ephemeral popovers that don't close others.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 74 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/introducing-popover-hint" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/popover#hint" target="_blank" rel="noopener">MDN</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "CSS Anchor Positioning" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        Hint popovers with <code>popover="hint"</code> are a new type of HTML popover designed for ephemeral
+        layered UI patterns, such as tooltips or link previews. Opening a hint popover does
+        <strong>not</strong> close other open <code>auto</code> or <code>manual</code> popovers, allowing
+        layered UI elements to coexist. Hint popovers can also exist on links (<code>&lt;a&gt;</code> tags),
+        unlike <code>auto</code> and <code>manual</code> popovers, which require activation from button
+        elements.
+      </p>
+
+      <p class="demo-intro">Set this up like any other popover:</p>
+
+      <pre class="code-block"><code>&lt;button interestfor="callout-1"&gt;&lt;/button&gt;
+&lt;div id="callout-1" popover=hint&gt;
+  Product callout information here.
+&lt;/div&gt;</code></pre>
+
+      <p class="demo-intro">
+        Using <code>popover="hint"</code> combined with <strong>interest invokers</strong> (the
+        <code>[interestfor]</code> attribute) makes it much easier to build layered UI elements like
+        tooltips, hover cards, and previews declaratively in HTML and CSS, without complex JavaScript
+        workarounds. This pairing allows for dual-purpose interaction patterns — hover to preview, click to
+        navigate — and better management of multiple on-screen layers.
+      </p>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <div class="hint-gallery">
+        <div class="hint-card">
+          <p class="hint-card__label">1. A simple anchored tooltip</p>
+          <button class="demo-btn" id="tip-anchor" interestfor="tip-1" type="button" style="anchor-name: --tip-anchor;">
+            Hover or focus me
+          </button>
+          <div id="tip-1" popover="hint" class="hint-popover" style="position-anchor: --tip-anchor;">
+            📌 I'm a <code>popover="hint"</code>, anchored to the button with CSS anchor positioning.
+          </div>
+        </div>
+
+        <div class="hint-card">
+          <p class="hint-card__label">2. A link preview (hint popovers work on &lt;a&gt;)</p>
+          <a
+            class="demo-link"
+            id="preview-anchor"
+            href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/popover#hint"
+            interestfor="preview-1"
+            target="_blank"
+            rel="noopener"
+            style="anchor-name: --preview-anchor;"
+          >
+            MDN: popover="hint" ↗
+          </a>
+          <div id="preview-1" popover="hint" class="hint-popover hint-popover--card" style="position-anchor: --preview-anchor;">
+            <p class="hint-popover__title">📖 popover="hint"</p>
+            <p>Hover to preview this link's destination — click it to actually navigate there.</p>
+          </div>
+        </div>
+
+        <div class="hint-card">
+          <p class="hint-card__label">3. Hints coexist with an open auto popover</p>
+          <button class="demo-btn demo-btn--accent" id="menu-btn" popovertarget="demo-menu" type="button">
+            📂 Open menu
+          </button>
+          <div id="demo-menu" popover="auto" class="menu-popover">
+            <button class="menu-item" id="menu-item-1" interestfor="menu-tip-1" type="button" style="anchor-name: --menu-item-1;">
+              Rename
+            </button>
+            <div id="menu-tip-1" popover="hint" class="hint-popover" style="position-anchor: --menu-item-1;">
+              Renames the current file. This tooltip won't close the menu behind it.
+            </div>
+            <button class="menu-item" id="menu-item-2" interestfor="menu-tip-2" type="button" style="anchor-name: --menu-item-2;">
+              Delete
+            </button>
+            <div id="menu-tip-2" popover="hint" class="hint-popover" style="position-anchor: --menu-item-2;">
+              Deletes the current file — hover away to dismiss just this hint.
+            </div>
+          </div>
+          <p class="hint-note">Open the menu, then hover its items — the menu (an <code>auto</code> popover) stays open the whole time.</p>
+        </div>
+      </div>
+
+      <p class="polyfill-note">
+        <code>interestfor</code> / <code>popover="hint"</code> have limited browser availability. Where
+        unsupported, this demo falls back to showing/hiding the popovers with <code>mouseenter</code>/
+        <code>focus</code> listeners in JavaScript, so the tooltips and previews above still work everywhere.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>

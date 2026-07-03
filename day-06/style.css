@@ -1,2 +1,236 @@
-/* Day 06 — CSS Anchor Positioning
+/* Day 06 — popover="hint"
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Demo gallery                                                       */
+/* ---------------------------------------------------------------- */
+
+.hint-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.hint-card {
+  padding: 1.25rem;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.hint-card__label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.hint-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.demo-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+  background: var(--bg-raise);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.demo-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-2);
+}
+
+.demo-btn--accent {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.demo-link {
+  color: var(--accent-2);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.demo-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------- */
+/* Hint popovers — plain, centered fallback position by default so   */
+/* the demo still works even without anchor positioning support.     */
+/* ---------------------------------------------------------------- */
+
+.hint-popover {
+  max-width: 20rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-raise);
+  color: var(--fg);
+  font-size: 0.85rem;
+  box-shadow: 0 16px 32px var(--shadow);
+}
+
+.hint-popover--card {
+  max-width: 22rem;
+}
+
+.hint-popover__title {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+}
+
+.hint-popover p {
+  margin: 0 0 0.35rem;
+}
+
+.hint-popover p:last-child {
+  margin-bottom: 0;
+}
+
+.menu-popover {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  box-shadow: 0 20px 45px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 10rem;
+}
+
+.menu-item {
+  appearance: none;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  font: inherit;
+  color: var(--fg);
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-item:hover,
+.menu-item:focus-visible {
+  background: var(--bg-raise);
+}
+
+/* ---------------------------------------------------------------- */
+/* CSS Anchor Positioning — anchors each hint popover to the exact    */
+/* element that triggered it. Gated behind @supports so browsers      */
+/* without it just get the popover's default (centered) placement.   */
+/* ---------------------------------------------------------------- */
+
+@supports (anchor-name: --a) {
+  .hint-popover {
+    position: fixed;
+    position-area: bottom span-all;
+    margin-block-start: 0.5rem;
+    inset: auto;
+  }
+}
