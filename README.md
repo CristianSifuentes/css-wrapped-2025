@@ -44,7 +44,7 @@ _CSSWrapped2025/
 | 🗓️ **04** | [`::scroll-marker` / `::scroll-button()`](./day-04/index.html) | ✅ Available |
 | 🗓️ **05** | [`scroll-target-group`](./day-05/index.html) | ✅ Available |
 | 🗓️ **06** | [`popover="hint"`](./day-06/index.html) | ✅ Available |
-| 🗓️ **07** | [Popover API and `[popover]`](./day-07/index.html) | ⏳ Coming soon |
+| 🗓️ **07** | [Anchored container queries](./day-07/index.html) | ✅ Available |
 | 🗓️ **08** | [Wide-gamut colors: `oklch()` and `oklab()`](./day-08/index.html) | ⏳ Coming soon |
 | 🗓️ **09** | [`color-mix()` for blending colors](./day-09/index.html) | ⏳ Coming soon |
 | 🗓️ **10** | [`@property`: typed custom properties](./day-10/index.html) | ⏳ Coming soon |

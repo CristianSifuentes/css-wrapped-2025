@@ -1,2 +1,242 @@
-/* Day 07 — Popover API and [popover]
+/* Day 07 — Anchored container queries
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.command-reference code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.command-reference {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.command-reference__title {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.command-reference dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+
+.command-reference dl > div {
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.6rem;
+}
+
+.command-reference dt {
+  margin-bottom: 0.2rem;
+}
+
+.command-reference dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+.demo-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--fg);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- */
+/* The stage — its own containing block (position: relative), so the */
+/* tooltip's fallback flip is computed against this small box rather */
+/* than the real viewport. That makes the demo deterministic no      */
+/* matter where it sits on the page or how big the window is.        */
+/* ---------------------------------------------------------------- */
+
+.anchor-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 12rem;
+  margin: 0.5rem 0 2rem;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  overflow: visible;
+  transition: justify-content 0.2s ease;
+}
+
+.anchor-stage.is-flipped {
+  justify-content: flex-end;
+}
+
+.anchor {
+  align-self: flex-start;
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  cursor: pointer;
+}
+
+.tooltip {
+  max-width: 16rem;
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-raise);
+  color: var(--fg);
+  font-size: 0.85rem;
+  box-shadow: 0 16px 32px var(--shadow);
+
+  /* Sensible fallback placement for browsers without anchor support:
+     right next to the button in normal flow. */
+  display: none;
+}
+
+.anchor:hover + .tooltip,
+.anchor:focus-visible + .tooltip {
+  display: block;
+}
+
+/* ---------------------------------------------------------------- */
+/* Real anchor positioning + the anchored container query that flips */
+/* the arrow. Gated behind @supports so unsupported browsers keep    */
+/* the plain adjacent-sibling tooltip above.                         */
+/* ---------------------------------------------------------------- */
+
+@supports (anchor-name: --a) {
+  .anchor {
+    anchor-name: --tooltip-anchor;
+  }
+
+  .tooltip {
+    position: absolute;
+    position-anchor: --tooltip-anchor;
+    position-area: bottom;
+    position-try-fallbacks: flip-block;
+    margin: 0.5rem 0 0;
+  }
+}
+
+@supports (container-type: anchored) {
+  .tooltip {
+    container-type: anchored;
+
+    &::before {
+      content: "▲";
+      position: absolute;
+      bottom: 100%;
+      left: 1rem;
+      color: var(--accent-2);
+      font-size: 0.9rem;
+    }
+  }
+
+  @container anchored(fallback: flip-block) {
+    .tooltip::before {
+      content: "▼";
+      bottom: auto;
+      top: 100%;
+    }
+  }
+}
