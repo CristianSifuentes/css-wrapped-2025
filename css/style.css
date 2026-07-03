@@ -112,6 +112,61 @@ main {
   margin-top: 0.35rem;
 }
 
+/* ---------------------------------------------------------------- */
+/* Category cue — a purely additive marker for cards that belong to  */
+/* a named group (currently: "Customizable Components"). It must     */
+/* never shift the card's own layout, so everything here is either   */
+/* an inset shadow (doesn't affect box size) or an absolutely         */
+/* positioned, pointer-events: none overlay that only appears on     */
+/* hover/focus, floating above the card rather than pushing into it.  */
+/* ---------------------------------------------------------------- */
+
+.day-card[data-category] {
+  position: relative;
+  box-shadow: inset 3px 0 0 0 color-mix(in oklab, var(--accent-2) 70%, var(--accent));
+}
+
+.day-card[data-category]:hover,
+.day-card[data-category]:focus-visible {
+  box-shadow: inset 4px 0 0 0 color-mix(in oklab, var(--accent-2) 70%, var(--accent));
+}
+
+.day-card[data-category]::after {
+  content: attr(data-category-label);
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 5;
+  white-space: nowrap;
+  pointer-events: none;
+
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 10px 24px var(--shadow);
+
+  opacity: 0;
+  transform: translate(-50%, -100%) translateY(-0.35rem) scale(0.94);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.day-card[data-category]:hover::after,
+.day-card[data-category]:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, -100%) translateY(-0.6rem) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-card[data-category]::after {
+    transition: opacity 0.2s ease;
+    transform: translate(-50%, -100%) translateY(-0.6rem) scale(1);
+  }
+}
+
 footer.site-footer {
   text-align: center;
   color: var(--muted);
