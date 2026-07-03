@@ -1,2 +1,294 @@
-/* Day 03 — :has() the parent selector
+/* Day 03 — Customizable select
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.command-reference code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.command-reference {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.command-reference__title {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.command-reference dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+
+.command-reference dl > div {
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.6rem;
+}
+
+.command-reference dt {
+  margin-bottom: 0.2rem;
+}
+
+.command-reference dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Select gallery — one card per demo                                 */
+/* ---------------------------------------------------------------- */
+
+.select-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.select-card {
+  padding: 1.25rem;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+.select-card__label {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- */
+/* Baseline styling — applies everywhere, even without base-select   */
+/* support, so the native <select> still looks intentional.          */
+/* ---------------------------------------------------------------- */
+
+.custom-select {
+  width: 100%;
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg-raise);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+}
+
+/* ---------------------------------------------------------------- */
+/* base-select — the real customization, gated behind @supports so   */
+/* browsers without it just keep the plain native dropdown above.    */
+/* ---------------------------------------------------------------- */
+
+@supports (appearance: base-select) {
+  select.custom-select,
+  .custom-select::picker(select) {
+    appearance: base-select;
+  }
+
+  .custom-select {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .custom-select:hover,
+  .custom-select:focus-visible {
+    border-color: var(--accent-2);
+  }
+
+  .custom-select::picker-icon {
+    color: var(--muted);
+    transition: rotate 0.2s ease;
+  }
+
+  .custom-select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  .custom-select::picker(select) {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-raise);
+    box-shadow: 0 20px 45px var(--shadow);
+    padding: 0.4rem;
+    margin-block-start: 0.4rem;
+
+    transition: opacity 0.18s ease, transform 0.18s ease, display 0.18s allow-discrete,
+      overlay 0.18s allow-discrete;
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+
+    &:popover-open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @starting-style {
+      &:popover-open {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+      }
+    }
+  }
+
+  .custom-select option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    color: var(--fg);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--bg-alt);
+    }
+
+    &:checked {
+      background: color-mix(in oklab, var(--accent) 18%, transparent);
+    }
+  }
+
+  .custom-select option::checkmark {
+    order: 1;
+    margin-inline-start: auto;
+    color: var(--accent-2);
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    background: var(--swatch, currentColor);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  }
+
+  .profile-select option {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .profile-avatar {
+    font-size: 1.3rem;
+    margin-inline-end: 0.4rem;
+  }
+
+  .profile-name {
+    font-weight: 600;
+  }
+
+  .description {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* The button shows a slimmer summary: hide the description there,
+     keep it visible in the open dropdown's options. */
+  selectedcontent .description {
+    display: none;
+  }
+
+  selectedcontent {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+}
