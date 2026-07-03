@@ -43,7 +43,7 @@ _CSSWrapped2025/
 | 🗓️ **03** | [Customizable `<select>`](./day-03/index.html) | ✅ Available |
 | 🗓️ **04** | [`::scroll-marker` / `::scroll-button()`](./day-04/index.html) | ✅ Available |
 | 🗓️ **05** | [`scroll-target-group`](./day-05/index.html) | ✅ Available |
-| 🗓️ **06** | [CSS Anchor Positioning](./day-06/index.html) | ⏳ Coming soon |
+| 🗓️ **06** | [`popover="hint"`](./day-06/index.html) | ✅ Available |
 | 🗓️ **07** | [Popover API and `[popover]`](./day-07/index.html) | ⏳ Coming soon |
 | 🗓️ **08** | [Wide-gamut colors: `oklch()` and `oklab()`](./day-08/index.html) | ⏳ Coming soon |
 | 🗓️ **09** | [`color-mix()` for blending colors](./day-09/index.html) | ⏳ Coming soon |
