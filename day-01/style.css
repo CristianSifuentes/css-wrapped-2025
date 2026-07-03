@@ -1,2 +1,232 @@
-/* Day 01 — Native CSS Nesting
+/* Day 01 — Invoker Commands
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.command-reference code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.command-reference {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.command-reference__title {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.command-reference dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem 1.5rem;
+  margin: 0;
+}
+
+.command-reference dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.4rem;
+}
+
+.command-reference dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.demo-stage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 1.5rem 0 2rem;
+  position: relative;
+}
+
+.demo-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.75rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+  background: var(--bg-alt);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.demo-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-2);
+}
+
+.demo-btn:active {
+  transform: translateY(0);
+}
+
+.demo-btn--accent {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.demo-btn--ghost {
+  background: transparent;
+  margin-top: 1.25rem;
+}
+
+.invoker-dialog {
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1.75rem 2rem;
+  max-width: 26rem;
+  color: var(--fg);
+  background: var(--bg-alt);
+  box-shadow: 0 24px 60px var(--shadow);
+}
+
+.invoker-dialog::backdrop {
+  background: rgba(6, 8, 14, 0.65);
+  backdrop-filter: blur(3px);
+}
+
+.invoker-dialog h3 {
+  margin-top: 0;
+}
+
+.invoker-popover {
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1.5rem 1.75rem;
+  max-width: 22rem;
+  color: var(--fg);
+  background: var(--bg-alt);
+  box-shadow: 0 20px 45px var(--shadow);
+  margin: auto;
+}
+
+.confetti-stage {
+  position: relative;
+  height: 0;
+  overflow: visible;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.9rem;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  animation: confetti-fall 900ms ease-in forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x, 0px)), 220px) rotate(var(--rotate, 180deg));
+  }
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece {
+    animation: none;
+    opacity: 0;
+  }
+}

@@ -3,23 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 01 — Native CSS Nesting | CSS Wrapped 2025</title>
+  <title>Day 01 — Invoker Commands | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 01 / 21</p>
-    <h1>Native CSS Nesting</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Invoker Commands</h1>
+    <p>Show a <code>&lt;dialog&gt;</code> modally (and more) without JavaScript!</p>
+
+    <div class="baseline-badge">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>Baseline 2025 · <strong>Newly available</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/invokers" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Invoker_Commands_API" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://github.com/keithamus/invokers-polyfill" target="_blank" rel="noopener">Invoker Commands polyfill</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Native CSS Nesting" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        To open a <code>&lt;dialog&gt;</code> modally by clicking a <code>&lt;button&gt;</code> you typically
+        need an <code>onclick</code> handler that calls the <code>showModal</code> method on that dialog:
+      </p>
+
+      <pre class="code-block"><code>&lt;button onclick="document.querySelector('#my-dialog').showModal();"&gt;
+  Show Dialog
+&lt;/button&gt;
+&lt;dialog id="my-dialog"&gt;…&lt;/dialog&gt;</code></pre>
+
+      <p class="demo-intro">
+        With <strong>invoker commands</strong> — available from Chrome 135 — buttons can now perform actions
+        on other elements <em>declaratively</em>, without any JavaScript:
+      </p>
+
+      <pre class="code-block"><code>&lt;button commandfor="my-dialog" command="show-modal"&gt;
+  Show Dialog
+&lt;/button&gt;
+&lt;dialog id="my-dialog"&gt;…&lt;/dialog&gt;</code></pre>
+
+      <p class="demo-intro">
+        The <code>commandfor</code> attribute takes an ID — similar to <code>for</code> — while
+        <code>command</code> accepts built-in values, enabling a more portable and intuitive approach.
+      </p>
+
+      <div class="command-reference">
+        <p class="command-reference__title">Built-in commands, mirrored after their JS counterparts</p>
+        <dl>
+          <div><dt><code>show-popover</code></dt><dd><code>el.showPopover()</code></dd></div>
+          <div><dt><code>hide-popover</code></dt><dd><code>el.hidePopover()</code></dd></div>
+          <div><dt><code>toggle-popover</code></dt><dd><code>el.togglePopover()</code></dd></div>
+          <div><dt><code>show-modal</code></dt><dd><code>dialogEl.showModal()</code></dd></div>
+          <div><dt><code>close</code></dt><dd><code>dialogEl.close()</code></dd></div>
+        </dl>
+      </div>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Demo to show and hide a <code>&lt;dialog&gt;</code> and a <code>[popover]</code> with invoker
+        commands — plus a custom <code>--show-confetti</code> command handled with the <code>command</code>
+        event. For browsers without support, a polyfill is loaded automatically.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <div class="demo-stage">
+        <button class="demo-btn" commandfor="invoker-dialog" command="show-modal">
+          🗔 Show dialog
+        </button>
+
+        <button class="demo-btn" commandfor="invoker-popover" command="toggle-popover">
+          🎈 Toggle popover
+        </button>
+
+        <button class="demo-btn demo-btn--accent" commandfor="confetti-stage" command="--show-confetti">
+          🎉 Custom command
+        </button>
+      </div>
+
+      <dialog id="invoker-dialog" class="invoker-dialog">
+        <h3>Modal, no JavaScript</h3>
+        <p>This dialog was opened purely with <code>command="show-modal"</code>.</p>
+        <button commandfor="invoker-dialog" command="close" class="demo-btn demo-btn--ghost">
+          Close
+        </button>
+      </dialog>
+
+      <div id="invoker-popover" popover class="invoker-popover">
+        <p>👋 I'm a native <code>[popover]</code>, toggled declaratively.</p>
+        <button commandfor="invoker-popover" command="hide-popover" class="demo-btn demo-btn--ghost">
+          Dismiss
+        </button>
+      </div>
+
+      <div id="confetti-stage" class="confetti-stage" aria-hidden="true"></div>
+
+      <p class="demo-intro">
+        Currently it is possible to send commands to <code>[popover]</code>s and <code>&lt;dialog&gt;</code>
+        elements, with more types of elements possibly coming in the future. It is also possible to set up
+        <strong>custom commands</strong>, prefixed by two dashes and handled by the <code>command</code>
+        event — the button above sends <code>--show-confetti</code>, and this page listens for it:
+      </p>
+
+      <pre class="code-block"><code>&lt;button commandfor="some-element" command="--show-confetti"&gt;🎉&lt;/button&gt;
+
+document.querySelector('#some-element').addEventListener('command', (e) =&gt; {
+  if (e.command === "--show-confetti") {
+    // …
+  }
+});</code></pre>
+
+      <p class="polyfill-note">
+        A <a href="https://github.com/keithamus/invokers-polyfill" target="_blank" rel="noopener">polyfill for
+        Invoker Commands</a> is available and loaded automatically above whenever native support is missing,
+        so the demo keeps working everywhere.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
