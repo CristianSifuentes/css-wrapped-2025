@@ -1,2 +1,134 @@
-/* Day 17 — field-sizing and modern forms
+/* Day 17 — shape() function
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--newly .baseline-badge__dot {
+  background: linear-gradient(135deg, #3ddc84, #22a6b3);
+  box-shadow: 0 0 0 3px rgba(61, 220, 132, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+  margin-top: 1.5rem;
+}
+
+.wave-slider-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 20rem;
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+  color: var(--fg);
+  font-size: 0.9rem;
+}
+
+.wave-slider-label input {
+  accent-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------- */
+/* The flag itself — a responsive, wavy-edged shape() clip.           */
+/* --wave controls the curve depth so it can be animated live.        */
+/* ---------------------------------------------------------------- */
+
+.flag {
+  --inset: 20px;
+  --wave: 40px;
+
+  width: 100%;
+  max-width: 28rem;
+  height: 10rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 16px 32px var(--shadow);
+}
+
+@supports (clip-path: shape(from 0% 0%, line to 100% 100%)) {
+  .flag {
+    clip-path: shape(
+      from 0% var(--inset),
+      curve to 100% var(--inset) with 25% 0% / 75% var(--wave),
+      vline to calc(100% - var(--inset)),
+      curve to 0% calc(100% - var(--inset)) with 75% 100% / 25% calc(100% - var(--wave)),
+      close
+    );
+  }
+}
