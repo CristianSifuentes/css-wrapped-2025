@@ -3,23 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 19 — Trigonometric and exponential functions (sin, cos, pow) | CSS Wrapped 2025</title>
+  <title>Day 19 — Custom Functions | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 19 / 21</p>
-    <h1>Trigonometric and exponential functions (sin, cos, pow)</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Custom Functions</h1>
+    <p>Reusable functions for cleaner, maintainable styles.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 73 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@function" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@function" target="_blank" rel="noopener"><code>@function</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Trigonometric and exponential functions (sin, cos, pow)" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        CSS custom functions are a fantastic new addition to the CSS language, and make it much
+        easier to write composable, reusable, and clear functional styling logic. A custom function
+        is made up of the <code>@function</code> statement, a function name prefixed with a double
+        dash (<code>--</code>), a series of arguments, and a result block. The arguments can also
+        have default, or fallback, values.
+      </p>
+
+      <p class="demo-intro">
+        An example of a simple CSS function is the "negate" function which returns the inverse
+        value of a number:
+      </p>
+
+      <pre class="code-block"><code>/* Negate function returns the negative of a value */
+@function --negate(--value) {
+  result: calc(-1 * var(--value));
+}
+
+/* Usage */
+html {
+  --gap: 1em;
+  padding: --negate(var(--gap));
+}</code></pre>
+
+      <p class="demo-intro">
+        There are many ways you can use functions in CSS. Ultimately, we'll likely see new patterns
+        emerge. For example, you might store CSS utilities in a <code>utils.css</code> file that
+        contains multiple functions. One favorite is the conditionally rounded border radius. The
+        following function removes an element's <code>border-radius</code> when it gets within a
+        specified distance of the viewport edge (defaulting to 4px), otherwise applying the desired
+        radius. You can provide one argument for the radius, or a second to override the edge
+        distance:
+      </p>
+
+      <pre class="code-block"><code>/* Conditionally apply a radius until you are (default: 4px, or specify second argument) from the edge of your screen */
+@function --conditional-radius(--radius, --edge-dist: 4px) {
+  result: clamp(0px, ((100vw - var(--edge-dist)) - 100%) * 1e5, var(--radius));
+}
+
+/* usage */
+.box {
+  /* 1rem border radius, default (4px) distance */
+  border-radius: --conditional-radius(1rem);
+}
+
+.box-2 {
+  /* 1rem border radius, right at the edge (0px distance) */
+  border-radius: --conditional-radius(1rem, 0px);
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <h3 class="demo-subheading">1. --negate() — pulling an element by its own offset</h3>
+      <p class="demo-intro">
+        Drag the slider to set <code>--offset</code>. The badge's <code>margin-top</code> is set to
+        <code>--negate(var(--offset))</code>, pulling it upward by exactly that amount.
+      </p>
+
+      <label class="offset-slider-label">
+        Offset: <span id="offset-value">16px</span>
+        <input type="range" id="offset-slider" min="0" max="40" step="1" value="16" />
+      </label>
+
+      <div class="negate-demo">
+        <div class="negate-demo__track"></div>
+        <div class="negate-demo__badge" id="negate-badge">pulled up</div>
+      </div>
+
+      <h3 class="demo-subheading">2. --conditional-radius() — square at the edge, round away from it</h3>
+      <p class="demo-intro">
+        This box is centered with a max-width. Resize your browser window narrower — as its edges
+        approach the actual viewport edge, <code>--conditional-radius()</code> drops the corner
+        radius to <code>0px</code>; widen the window again and the radius comes back.
+      </p>
+
+      <p class="demo-intro edge-status" id="edge-status">Window width: —</p>
+
+      <div class="edge-box" id="edge-box">Resize the window to see my corners react.</div>
+
+      <p class="polyfill-note">
+        <code>@function</code> has limited browser availability (Chrome/Edge 137+ today). Where it
+        isn't supported, both demos above fall back to the same math computed in JavaScript on
+        every slider input / window resize, so they still work — they just aren't computed by
+        <code>@function</code> in CSS.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
