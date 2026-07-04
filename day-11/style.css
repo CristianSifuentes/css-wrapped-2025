@@ -1,2 +1,208 @@
-/* Day 11 — View Transitions API
+/* Day 11 — scrollIntoView() container
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.nearest-toggle code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Toggle + thumbnails                                                */
+/* ---------------------------------------------------------------- */
+
+.nearest-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  font-weight: 600;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.nearest-toggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--accent);
+}
+
+.thumb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+}
+
+.thumb-btn {
+  appearance: none;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--fg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.thumb-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-2);
+}
+
+.thumb-btn.is-active {
+  border-color: var(--accent-2);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------- */
+/* Outer (vertical) scroller — stands in for "the rest of the page". */
+/* ---------------------------------------------------------------- */
+
+.outer-scroller {
+  height: 16rem;
+  overflow-y: auto;
+  padding: 0 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+  scroll-behavior: smooth;
+}
+
+.filler-block {
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Inner (horizontal) carousel — the "nearest" scroll container.     */
+/* ---------------------------------------------------------------- */
+
+.carousel-shell {
+  margin: 1rem 0;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 1rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.carousel-slide {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: var(--card-radius);
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(160deg, var(--card, var(--accent)), color-mix(in oklab, var(--card, var(--accent)) 60%, black));
+  box-shadow: 0 16px 32px var(--shadow);
+  scroll-snap-align: center;
+}
+
+.carousel-slide span {
+  font-size: 1.6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outer-scroller,
+  .carousel-track,
+  .thumb-btn {
+    scroll-behavior: auto;
+    transition: none;
+  }
+}
