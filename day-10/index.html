@@ -66,8 +66,10 @@
 
       <h2 id="demo" class="demo-heading">Try it live</h2>
       <p class="demo-intro">
-        Four cards animate in with a staggered delay computed entirely from <code>sibling-index()</code> — no
-        hard-coded indices anywhere. Hit shuffle to re-order and re-run the entry animation.
+        Four cards animate in with a staggered delay computed entirely from <code>sibling-index()</code> and
+        <code>sibling-count()</code> — no hard-coded indices anywhere. The small "N / total" badge on each
+        card is rendered the same way, via <code>counter-reset: pos sibling-index() total sibling-count();</code>.
+        Hit shuffle to re-order and re-run the entry animation.
       </p>
 
       <p id="support-status" class="support-status">Checking native support…</p>
@@ -85,8 +87,9 @@
 
       <p class="polyfill-note">
         <code>sibling-index()</code> / <code>sibling-count()</code> have limited browser availability. Where
-        unsupported, this demo falls back to setting an <code>--i</code> custom property per card with
-        JavaScript, so the same staggered animation still plays — it just isn't computed by CSS alone.
+        unsupported, this demo falls back to setting <code>--i</code> and <code>--n</code> custom properties
+        per card with JavaScript, so the same staggered animation and "N / total" badge still work — they
+        just aren't computed by CSS alone.
       </p>
     </section>
 

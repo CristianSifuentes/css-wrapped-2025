@@ -1,6 +1,6 @@
 // Day 10 — Tree counting functions
-// Feature-detects sibling-index()/sibling-count(), sets a --i fallback
-// custom property for unsupported browsers, and re-triggers the entry
+// Feature-detects sibling-index()/sibling-count(), sets --i/--n fallback
+// custom properties for unsupported browsers, and re-triggers the entry
 // animation on shuffle by swapping in fresh DOM nodes (so @starting-style
 // fires again — it only applies the first time an element is rendered).
 
@@ -9,8 +9,10 @@ const supportsSiblingIndex =
 
 function setFallbackIndices(gallery) {
   if (supportsSiblingIndex) return;
+  const total = gallery.children.length;
   [...gallery.children].forEach((card, i) => {
     card.style.setProperty("--i", String(i + 1));
+    card.style.setProperty("--n", String(total));
   });
 }
 
