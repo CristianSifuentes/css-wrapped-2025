@@ -3,23 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 13 — Scroll-driven animations | CSS Wrapped 2025</title>
+  <title>Day 13 — DOM State-Preserving Move | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 13 / 21</p>
-    <h1>Scroll-driven animations</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>DOM State-Preserving Move</h1>
+    <p>Move iframes and videos across the DOM without reloading them.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 25 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/movebefore-api" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/moveBefore" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/moveBefore" target="_blank" rel="noopener"><code>moveBefore()</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Scroll-driven animations" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        Using <code>insertBefore</code> to move an element in the DOM is destructive. If you move a
+        playing video or an iframe using <code>insertBefore</code>, it reloads and loses its state
+        completely.
+      </p>
+
+      <p class="demo-intro">
+        However, from Chrome 133, you can use <code>moveBefore</code>. It works exactly like
+        <code>insertBefore</code>, but it keeps the element alive during the move.
+      </p>
+
+      <pre class="code-block"><code>const $newSibling = getRandomElementInBody();
+const $iframe = document.querySelector('iframe');
+document.body.moveBefore($iframe, $newSibling);</code></pre>
+
+      <p class="demo-intro">
+        This means videos keep playing, iframes don't reload, CSS animations don't restart, and
+        input fields keep their focus — even while you are actively reparenting them across your
+        layout.
+      </p>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        The card below has three things with live state: a progress bar mid-animation, a text
+        input you can focus, and an iframe running its own counter. Click a button to move the
+        whole card to the other slot, and see what survives the trip.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <div class="move-controls">
+        <button type="button" class="demo-btn demo-btn--danger" id="btn-insert-before">
+          Move with insertBefore (destructive)
+        </button>
+        <button type="button" class="demo-btn demo-btn--accent" id="btn-move-before">
+          Move with moveBefore (state-preserving)
+        </button>
+      </div>
+
+      <div class="move-slots">
+        <div class="move-slot" id="slot-a">
+          <p class="move-slot__label">Slot A</p>
+        </div>
+        <div class="move-slot" id="slot-b">
+          <p class="move-slot__label">Slot B</p>
+        </div>
+      </div>
+
+      <template id="move-card-template">
+        <div class="move-card" id="move-card">
+          <div class="move-card__row">
+            <span class="move-card__row-label">CSS animation</span>
+            <div class="move-card__progress-track">
+              <div class="move-card__progress-bar"></div>
+            </div>
+          </div>
+
+          <div class="move-card__row">
+            <span class="move-card__row-label">Input focus</span>
+            <input type="text" class="move-card__input" placeholder="Focus me, then click a move button" />
+          </div>
+          <p class="move-card__status" id="focus-status">Not focused</p>
+
+          <div class="move-card__row">
+            <span class="move-card__row-label">Live iframe</span>
+            <iframe class="move-card__frame" src="iframe-content.html" title="Live counter running inside an iframe"></iframe>
+          </div>
+        </div>
+      </template>
+
+      <p class="polyfill-note">
+        <code>moveBefore()</code> has limited browser availability (Chrome/Edge 133+ today). Where
+        it isn't supported, the "moveBefore" button is disabled — clicking the destructive
+        <code>insertBefore</code> button on both sides is the only way to see how every browser
+        behaves today. For a recording of the difference on a real YouTube embed, see the Chrome
+        for Developers article linked above.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
