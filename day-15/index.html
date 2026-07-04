@@ -3,23 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 15 — Individual transforms (translate, scale, rotate) | CSS Wrapped 2025</title>
+  <title>Day 15 — ToggleEvent.source | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 15 / 21</p>
-    <h1>Individual transforms (translate, scale, rotate)</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>ToggleEvent.source</h1>
+    <p>Find out which element was responsible for toggling the target.</p>
+
+    <div class="baseline-badge baseline-badge--newly">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>Baseline 2026 · <strong>Newly available</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/ToggleEvent/source" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/ToggleEvent/source" target="_blank" rel="noopener">ToggleEvent source</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Individual transforms (translate, scale, rotate)" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        When a popover, <code>&lt;dialog&gt;</code>, or <code>&lt;details&gt;</code> element gets
+        toggled, it can be interesting to know which element was responsible for toggling it. For
+        example, knowing if the user pressed the "Accept Cookies" or "Reject Cookies" button to
+        dismiss a cookie banner is a very important detail.
+      </p>
+
+      <p class="demo-intro">
+        The <code>source</code> attribute of the <code>ToggleEvent</code> lets you know exactly
+        that, as it contains the element which triggered the event to be fired, if applicable.
+        Based on that source you can take different actions.
+      </p>
+
+      <pre class="code-block"><code>&lt;div id="cookiebanner" popover="auto"&gt;
+ &lt;p&gt;Would you like a cookie?&lt;/p&gt;
+ &lt;button id="yes" commandfor="cookiebanner" command="hide-popover"&gt;Yes&lt;/button&gt;
+ &lt;button id="no" commandfor="cookiebanner" command="hide-popover"&gt;No&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+ const $btnYes = document.getElementById('yes');
+ const $btnNo = document.getElementById('no');
+ const $cookiebanner = document.getElementById('cookiebanner');
+
+ $cookiebanner.addEventListener('toggle', event =&gt; {
+   if (event.source == $btnYes) {
+     // Give the user a cookie
+   } else if (event.source == $btnNo) {
+     // Don't give the user a cookie
+   }
+ });
+&lt;/script&gt;</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        This is the exact pattern above, wired up with real Invoker Commands. Open the banner, then
+        pick Yes or No — the log below is filled in entirely from <code>event.source</code>.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <button type="button" class="demo-btn demo-btn--accent" command="show-popover" commandfor="cookiebanner">
+        🍪 Show cookie banner
+      </button>
+
+      <p class="event-log" id="event-log">No decision yet — open the banner above.</p>
+
+      <div id="cookiebanner" class="cookie-banner" popover="auto">
+        <p>Would you like a cookie? 🍪</p>
+        <div class="cookie-banner__actions">
+          <button type="button" id="btn-yes" class="demo-btn demo-btn--accent" commandfor="cookiebanner" command="hide-popover">
+            Yes, please
+          </button>
+          <button type="button" id="btn-no" class="demo-btn demo-btn--danger" commandfor="cookiebanner" command="hide-popover">
+            No, thanks
+          </button>
+        </div>
+      </div>
+
+      <p class="polyfill-note">
+        <code>ToggleEvent.source</code> reached Baseline "newly available" in 2026, but older
+        browsers may still lack it. Where it isn't supported, this demo falls back to tracking the
+        last-clicked button manually in JavaScript, so the log above still works either way — the
+        <code>popover</code> and Invoker Commands behavior itself has been broadly supported for
+        longer.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
