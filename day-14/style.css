@@ -1,2 +1,217 @@
-/* Day 14 — CSS Grid Subgrid
+/* Day 14 — Advanced attr() function
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-subheading {
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: var(--accent-2);
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+  margin-top: 2rem;
+}
+
+/* ---------------------------------------------------------------- */
+/* 1. Typed color — attr(data-color type(<color>))                    */
+/* ---------------------------------------------------------------- */
+
+.color-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.5rem 0 1rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.color-picker input[type="color"] {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+}
+
+.swatch {
+  width: 6rem;
+  height: 6rem;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 24px var(--shadow);
+  background: gray;
+}
+
+@supports (color: attr(data-color type(<color>), red)) {
+  .swatch {
+    background: attr(data-color type(<color>), gray);
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* 2. Typed custom idents — attr(id type(<custom-ident>))             */
+/* ---------------------------------------------------------------- */
+
+.vt-name-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.vt-name-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+@supports (view-transition-name: attr(id type(<custom-ident>), none)) {
+  .vt-name-card {
+    view-transition-name: attr(id type(<custom-ident>), none);
+  }
+}
+
+.vt-name-card__label {
+  font-weight: 700;
+  color: var(--fg);
+  font-size: 0.9rem;
+}
+
+.vt-name-card__computed {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* ---------------------------------------------------------------- */
+/* 3. Typed numbers — the star rating                                  */
+/* ---------------------------------------------------------------- */
+
+.rating-slider {
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  margin: 0.5rem 0 1.25rem;
+  accent-color: var(--accent);
+}
+
+.star-rating {
+  --percent-fill: 80%;
+
+  position: relative;
+  display: inline-block;
+  font-size: 2.75rem;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  color: transparent;
+  background: linear-gradient(to right, gold var(--percent-fill), color-mix(in oklab, var(--fg) 25%, transparent) var(--percent-fill));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@supports (background: attr(data-color type(<color>), red)) {
+  .star-rating {
+    --percent-fill: calc(attr(data-rating type(<number>)) * 20%);
+  }
+}
+
+.star-rating::after {
+  content: attr(data-rating);
+  position: absolute;
+  right: -1.75rem;
+  bottom: -0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+  -webkit-text-fill-color: var(--muted);
+}
