@@ -47,22 +47,22 @@ _CSSWrapped2025/
 | 🗓️ **07** | [Anchored container queries](./day-07/index.html) | ✅ Available |
 | 🗓️ **08** | [Interest invokers](./day-08/index.html) | ✅ Available |
 | 🗓️ **09** | [Scroll-state queries](./day-09/index.html) | ✅ Available |
-| 🗓️ **10** | [`@property`: typed custom properties](./day-10/index.html) | ⏳ Coming soon |
-| 🗓️ **11** | [View Transitions API](./day-11/index.html) | ⏳ Coming soon |
-| 🗓️ **12** | [`text-wrap: balance` and `pretty`](./day-12/index.html) | ⏳ Coming soon |
-| 🗓️ **13** | [Scroll-driven animations](./day-13/index.html) | ⏳ Coming soon |
-| 🗓️ **14** | [CSS Grid Subgrid](./day-14/index.html) | ⏳ Coming soon |
-| 🗓️ **15** | [Individual transforms (`translate`, `scale`, `rotate`)](./day-15/index.html) | ⏳ Coming soon |
-| 🗓️ **16** | [Nested selectors with `&`](./day-16/index.html) | ⏳ Coming soon |
-| 🗓️ **17** | [`field-sizing` and modern forms](./day-17/index.html) | ⏳ Coming soon |
-| 🗓️ **18** | [CSS Grid Masonry](./day-18/index.html) | ⏳ Coming soon |
-| 🗓️ **19** | [Trigonometric and exponential functions (`sin`, `cos`, `pow`)](./day-19/index.html) | ⏳ Coming soon |
-| 🗓️ **20** | [`scroll-timeline` and progress bars](./day-20/index.html) | ⏳ Coming soon |
-| 🗓️ **21** | [Container units (`cqw`, `cqh`, `cqi`)](./day-21/index.html) | ⏳ Coming soon |
+| 🗓️ **10** | [Tree counting functions (`sibling-index()` / `sibling-count()`)](./day-10/index.html) | ✅ Available |
+| 🗓️ **11** | [`scrollIntoView()` container](./day-11/index.html) | ✅ Available |
+| 🗓️ **12** | [Nested View Transition Groups](./day-12/index.html) | ✅ Available |
+| 🗓️ **13** | [DOM State-Preserving Move (`moveBefore()`)](./day-13/index.html) | ✅ Available |
+| 🗓️ **14** | [Advanced `attr()` function](./day-14/index.html) | ✅ Available |
+| 🗓️ **15** | [`ToggleEvent.source`](./day-15/index.html) | ✅ Available |
+| 🗓️ **16** | [`text-box` features](./day-16/index.html) | ✅ Available |
+| 🗓️ **17** | [`shape()` function](./day-17/index.html) | ✅ Available |
+| 🗓️ **18** | [`if()` statements](./day-18/index.html) | ✅ Available |
+| 🗓️ **19** | [Custom Functions (`@function`)](./day-19/index.html) | ✅ Available |
+| 🗓️ **20** | [Expanded range syntax](./day-20/index.html) | ✅ Available |
+| 🗓️ **21** | [Stretch sizing keyword](./day-21/index.html) | ✅ Available |
 
 </div>
 
-> Rows are marked ✅ **Available** once that day's demo is built out; the rest are still ⏳ **Coming soon**.
+> All 21 days are now ✅ **Available** — each with its own live, interactive demo.
 
 ---
 
