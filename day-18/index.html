@@ -3,23 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 18 — CSS Grid Masonry | CSS Wrapped 2025</title>
+  <title>Day 18 — if() statements | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 18 / 21</p>
-    <h1>CSS Grid Masonry</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>if() statements</h1>
+    <p>Conditionals in your CSS for dynamic styling.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 86 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/if-article" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/if" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/if" target="_blank" rel="noopener"><code>if()</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "CSS Grid Masonry" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        The <code>if()</code> function in CSS lets you set different values for a property based on
+        a conditional test. Think of it like a ternary operator in JavaScript, but for your
+        stylesheets. It provides a cleaner and more concise way to handle dynamic styling compared
+        to writing multiple, verbose <code>@media</code> or <code>@supports</code> blocks for a
+        single property change.
+      </p>
+
+      <p class="demo-intro">
+        The syntax is straightforward. The <code>if()</code> function takes a series of
+        condition-value pairs, separated by semicolons. The first condition that evaluates to true
+        will have its corresponding value applied. You can also provide an <code>else</code>
+        fallback value.
+      </p>
+
+      <pre class="code-block"><code>if(condition-1: value-1; condition-2: value-2; else: fallback-value);</code></pre>
+
+      <p class="demo-intro">Currently, <code>if()</code> can be used with three types of queries:</p>
+
+      <div class="command-reference">
+        <dl>
+          <div>
+            <dt><code>media()</code></dt>
+            <dd>For media queries.</dd>
+          </div>
+          <div>
+            <dt><code>supports()</code></dt>
+            <dd>For feature queries.</dd>
+          </div>
+          <div>
+            <dt><code>style()</code></dt>
+            <dd>For style queries.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <p class="demo-intro">
+        One example of using <code>if()</code> is creating inline media queries. This allows you to
+        adjust styling for different viewport sizes or device capabilities without writing separate
+        <code>@media</code> blocks.
+      </p>
+
+      <p class="demo-intro">
+        For example, you can create a responsive layout that changes from a column to a row based
+        on viewport orientation:
+      </p>
+
+      <pre class="code-block"><code>.responsive-layout {
+  display: flex;
+  flex-direction: if(media(orientation: landscape): row; else: column);
+}</code></pre>
+
+      <p class="demo-intro">
+        This approach is more concise than a traditional media query, which requires you to define
+        the styles in two separate places. With <code>if()</code>, you can keep the logic for a
+        single property in one place, making your CSS easier to read and maintain.
+      </p>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <h3 class="demo-subheading">1. media() — the exact example above</h3>
+      <p class="demo-intro">
+        Resize your browser window (or rotate a phone) to flip between landscape and portrait —
+        no <code>@media</code> block required, just one property value.
+      </p>
+
+      <div class="responsive-layout" id="responsive-layout">
+        <div class="responsive-layout__item">1</div>
+        <div class="responsive-layout__item">2</div>
+        <div class="responsive-layout__item">3</div>
+      </div>
+      <p class="demo-intro layout-status" id="layout-status">Current orientation: —</p>
+
+      <h3 class="demo-subheading">2. style() — querying a custom property on the element itself</h3>
+      <p class="demo-intro">
+        Click the button to flip a custom property, <code>--emphasis</code>, on the card below.
+        <code>if(style(--emphasis: true): …; else: …)</code> reads it directly — no parent element
+        or wrapping style query needed.
+      </p>
+
+      <button type="button" class="demo-btn demo-btn--accent" id="emphasis-toggle">
+        Toggle --emphasis
+      </button>
+
+      <div class="style-card" id="style-card">
+        <code>--emphasis: false</code>
+      </div>
+
+      <p class="polyfill-note">
+        <code>if()</code> has limited browser availability (Chrome/Edge 137+ today). Where it isn't
+        supported, both demos above fall back to the same underlying logic computed in JavaScript —
+        the layout still reflows on resize, and the button still flips the card's style — they just
+        aren't computed by <code>if()</code> in CSS.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
