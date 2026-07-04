@@ -1,17 +1,39 @@
-// Day 03 — Customizable select
-// Feature-detects `appearance: base-select` and reports it; no other
-// JavaScript is needed since the customization is entirely CSS-driven —
-// the browser handles opening, closing, and positioning the dropdown.
+// Day 03 — popover="hint"
+// Feature-detects `interestfor` (interest invokers) support. Where it's
+// missing, wires up the same hover/focus-to-open behavior by hand, so the
+// tooltip, link preview, and menu-item hints above still work everywhere.
 
-const supportsBaseSelect =
-  typeof CSS !== "undefined" && CSS.supports("appearance", "base-select");
+const supportsInterestFor = "interestForElement" in HTMLButtonElement.prototype;
 
 document.addEventListener("DOMContentLoaded", () => {
   const status = document.querySelector("#support-status");
-  if (!status) return;
+  if (status) {
+    status.textContent = supportsInterestFor
+      ? "✅ Your browser supports interestfor / popover=\"hint\" natively."
+      : "⏳ No native support detected — hints are polyfilled with hover/focus listeners.";
+    status.classList.add(supportsInterestFor ? "ok" : "nok");
+  }
 
-  status.textContent = supportsBaseSelect
-    ? "✅ Your browser supports appearance: base-select — the selects above are fully custom."
-    : "⏳ No native support detected — the selects above fall back to the plain native dropdown.";
-  status.classList.add(supportsBaseSelect ? "ok" : "nok");
+  if (supportsInterestFor) return;
+
+  document.querySelectorAll("[interestfor]").forEach((trigger) => {
+    const popover = document.querySelector(`#${trigger.getAttribute("interestfor")}`);
+    if (!popover) return;
+
+    let hideTimer = null;
+    const open = () => {
+      clearTimeout(hideTimer);
+      popover.showPopover?.();
+    };
+    const scheduleClose = () => {
+      hideTimer = setTimeout(() => popover.hidePopover?.(), 150);
+    };
+
+    trigger.addEventListener("mouseenter", open);
+    trigger.addEventListener("focus", open);
+    trigger.addEventListener("mouseleave", scheduleClose);
+    trigger.addEventListener("blur", scheduleClose);
+    popover.addEventListener("mouseenter", () => clearTimeout(hideTimer));
+    popover.addEventListener("mouseleave", scheduleClose);
+  });
 });

@@ -1,29 +1,17 @@
-// Day 04 — ::scroll-marker / ::scroll-button()
-// Feature-detects support for both pseudo-elements; no other JavaScript
-// is needed since the buttons, markers, and scrolling are all native
-// browser behavior once the CSS above matches.
+// Day 04 — Customizable select
+// Feature-detects `appearance: base-select` and reports it; no other
+// JavaScript is needed since the customization is entirely CSS-driven —
+// the browser handles opening, closing, and positioning the dropdown.
 
-const supportsScrollButtons =
-  typeof CSS !== "undefined" && CSS.supports("selector(::scroll-button(*))");
-const supportsScrollMarkers =
-  typeof CSS !== "undefined" && CSS.supports("selector(::scroll-marker)");
+const supportsBaseSelect =
+  typeof CSS !== "undefined" && CSS.supports("appearance", "base-select");
 
 document.addEventListener("DOMContentLoaded", () => {
   const status = document.querySelector("#support-status");
   if (!status) return;
 
-  if (supportsScrollButtons && supportsScrollMarkers) {
-    status.textContent = "✅ Your browser supports both ::scroll-button() and ::scroll-marker().";
-    status.classList.add("ok");
-  } else if (supportsScrollButtons || supportsScrollMarkers) {
-    status.textContent =
-      "⚠️ Partial support detected — " +
-      (supportsScrollButtons ? "::scroll-button() works, ::scroll-marker() doesn't" : "::scroll-marker() works, ::scroll-button() doesn't") +
-      " yet in this browser.";
-    status.classList.add("nok");
-  } else {
-    status.textContent =
-      "⏳ No native support detected — the carousel below still scrolls natively, just without the generated arrows or dots.";
-    status.classList.add("nok");
-  }
+  status.textContent = supportsBaseSelect
+    ? "✅ Your browser supports appearance: base-select — the selects above are fully custom."
+    : "⏳ No native support detected — the selects above fall back to the plain native dropdown.";
+  status.classList.add(supportsBaseSelect ? "ok" : "nok");
 });
