@@ -1,42 +1,29 @@
-// Day 05 — scroll-target-group
-// Feature-detects native `scroll-target-group` support and reports it.
-// Where it's missing, an IntersectionObserver drives the same
-// "currently visible section" highlight on the table of contents.
+// Day 05 — ::scroll-marker / ::scroll-button()
+// Feature-detects support for both pseudo-elements; no other JavaScript
+// is needed since the buttons, markers, and scrolling are all native
+// browser behavior once the CSS above matches.
 
-const supportsScrollTargetGroup =
-  typeof CSS !== "undefined" && CSS.supports("scroll-target-group", "auto");
+const supportsScrollButtons =
+  typeof CSS !== "undefined" && CSS.supports("selector(::scroll-button(*))");
+const supportsScrollMarkers =
+  typeof CSS !== "undefined" && CSS.supports("selector(::scroll-marker)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const status = document.querySelector("#support-status");
-  if (status) {
-    status.textContent = supportsScrollTargetGroup
-      ? "✅ Your browser supports scroll-target-group — the highlight above is fully native."
-      : "⏳ No native support detected — the highlight is polyfilled with an IntersectionObserver.";
-    status.classList.add(supportsScrollTargetGroup ? "ok" : "nok");
+  if (!status) return;
+
+  if (supportsScrollButtons && supportsScrollMarkers) {
+    status.textContent = "✅ Your browser supports both ::scroll-button() and ::scroll-marker().";
+    status.classList.add("ok");
+  } else if (supportsScrollButtons || supportsScrollMarkers) {
+    status.textContent =
+      "⚠️ Partial support detected — " +
+      (supportsScrollButtons ? "::scroll-button() works, ::scroll-marker() doesn't" : "::scroll-marker() works, ::scroll-button() doesn't") +
+      " yet in this browser.";
+    status.classList.add("nok");
+  } else {
+    status.textContent =
+      "⏳ No native support detected — the carousel below still scrolls natively, just without the generated arrows or dots.";
+    status.classList.add("nok");
   }
-
-  if (supportsScrollTargetGroup) return;
-
-  const panel = document.querySelector(".scrollspy-panel");
-  const links = document.querySelectorAll(".toc a");
-  if (!panel || !links.length) return;
-
-  const linkByTargetId = new Map(
-    [...links].map((link) => [link.getAttribute("href").slice(1), link])
-  );
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const link = linkByTargetId.get(entry.target.id);
-        if (!link) return;
-        link.classList.toggle("is-current", entry.isIntersecting);
-      });
-    },
-    { root: panel, threshold: 0.6 }
-  );
-
-  document.querySelectorAll(".scrollspy-section").forEach((section) => {
-    observer.observe(section);
-  });
 });
