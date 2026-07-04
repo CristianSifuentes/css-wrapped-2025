@@ -3,23 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 21 — Container units (cqw, cqh, cqi) | CSS Wrapped 2025</title>
+  <title>Day 21 — Stretch sizing keyword | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 21 / 21</p>
-    <h1>Container units (cqw, cqh, cqi)</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Stretch sizing keyword</h1>
+    <p>Make an element fill its containing block, regardless of the box-sizing.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 21 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/width" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/width" target="_blank" rel="noopener"><code>stretch</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Container units (cqw, cqh, cqi)" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        The <code>stretch</code> keyword is a keyword for use with CSS sizing properties (such as
+        <code>width</code> and <code>height</code>) that lets elements grow to exactly fill their
+        containing block's available space.
+      </p>
+
+      <p class="demo-intro">
+        It's similar to <code>100%</code>, except the resulting size is applied to the
+        <strong>margin box</strong> of the element instead of the box determined by
+        <code>box-sizing</code>.
+      </p>
+
+      <pre class="code-block"><code>.element {
+  height: stretch;
+}</code></pre>
+
+      <p class="demo-intro">
+        Using this keyword lets the element keep its margins while still being as large as
+        possible.
+      </p>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        The dashed box is the containing block; the solid card inside it has a fixed margin. Switch
+        between <code>auto</code>, <code>100vh</code>, <code>100%</code>, and <code>stretch</code>
+        and watch what happens at the card's edges.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <fieldset class="stretch-options" id="stretch-options">
+        <legend>height:</legend>
+        <label><input type="radio" name="stretch-height" value="auto" checked /> auto</label>
+        <label><input type="radio" name="stretch-height" value="100vh" /> 100vh</label>
+        <label><input type="radio" name="stretch-height" value="100%" /> 100%</label>
+        <label><input type="radio" name="stretch-height" value="stretch" /> stretch</label>
+      </fieldset>
+
+      <div class="stretch-demo" id="stretch-parent">
+        <div class="stretch-demo__child" id="stretch-child">
+          <span id="stretch-readout">computed height: —</span>
+        </div>
+      </div>
+
+      <p class="polyfill-note">
+        <code>stretch</code> has limited browser availability today. Where it isn't supported,
+        selecting it falls back to the classic manual workaround —
+        <code>calc(100% - margin * 2)</code> — computed in JavaScript, so you can still see what
+        the keyword would otherwise give you for free.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
