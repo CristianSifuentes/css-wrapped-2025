@@ -1,2 +1,201 @@
-/* Day 20 — scroll-timeline and progress bars
+/* Day 20 — Expanded range syntax
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+  margin-top: 1.5rem;
+}
+
+.rain-slider-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 22rem;
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+  color: var(--fg);
+  font-size: 0.9rem;
+}
+
+.rain-slider-label input {
+  accent-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------- */
+/* Weather cards. Each <li> is a style-query container carrying its   */
+/* --rain-percent as a typed custom property parsed from the DOM      */
+/* attribute; the inner card reacts to that value via range queries.  */
+/* ---------------------------------------------------------------- */
+
+.weather-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.card-container {
+  container-name: weather;
+}
+
+@supports (top: attr(data-rain-percent type(<percentage>))) {
+  .card-container {
+    --rain-percent: attr(data-rain-percent type(<percentage>));
+  }
+}
+
+.weather-card {
+  position: relative;
+  padding: 1.25rem;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  background: linear-gradient(140deg, var(--gold), color-mix(in oklab, var(--gold) 60%, white));
+  color: #241a08;
+  box-shadow: 0 12px 24px var(--shadow);
+}
+
+.weather-card h3 {
+  margin: 0 0 0.4rem;
+}
+
+.weather-card p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.weather-card__dot {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+@supports (background: if(style(--x: 1 > 0): red; else: blue)) {
+  .weather-card__dot {
+    background: if(style(--rain-percent > 45%): var(--accent-2); else: var(--muted));
+  }
+}
+
+@container weather style(--rain-percent > 45%) {
+  .weather-card {
+    background: linear-gradient(140deg, #2563eb, #93c5fd);
+    color: #fff;
+  }
+}
+
+@container weather style(--rain-percent > 70%) {
+  .weather-card {
+    background: linear-gradient(140deg, #1d4ed8, #60a5fa);
+  }
+
+  .weather-card h3::after {
+    content: " ⛈️";
+  }
+}
+
+/* JS-driven fallback classes for browsers without range style queries */
+.weather-card.is-rainy {
+  background: linear-gradient(140deg, #2563eb, #93c5fd);
+  color: #fff;
+}
+
+.weather-card.is-stormy {
+  background: linear-gradient(140deg, #1d4ed8, #60a5fa);
+}
+
+.weather-card.is-rainy .weather-card__dot {
+  background: var(--accent-2);
+}
+
+.weather-card.is-stormy h3::after {
+  content: " ⛈️";
+}

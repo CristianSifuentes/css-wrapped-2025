@@ -3,23 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 20 — scroll-timeline and progress bars | CSS Wrapped 2025</title>
+  <title>Day 20 — Expanded range syntax | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 20 / 21</p>
-    <h1>scroll-timeline and progress bars</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Expanded range syntax</h1>
+    <p>Range syntax in style queries and if() statements.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 22 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_size_and_style_queries" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://una.im/range-style-queries" target="_blank" rel="noopener">Range syntax for style queries</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "scroll-timeline and progress bars" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        One nice update that landed this year is the ability to use range syntax in style queries
+        and <code>if()</code> statements. Media queries and container queries already supported this
+        capability, but before Chrome 142, style queries required an exact value match, like
+        <code>@container style(--myVal: true)</code>.
+      </p>
+
+      <p class="demo-intro">
+        Now, you can type your values and use them with comparison operators like
+        <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, and <code>&gt;=</code>. This
+        enables many new architectural capabilities directly in your CSS.
+      </p>
+
+      <p class="demo-intro">
+        The following demo uses stylized cards to visualize the daily weather. The HTML markup
+        includes data, such as the chance of rain, indicated by the value of
+        <code>data-rain-percent</code>.
+      </p>
+
+      <pre class="code-block"><code>&lt;li class="card-container" style="--cloudy: true;" data-rain-percent="60%"&gt;
+  &lt;div class="weather-card"&gt;
+    &lt;h2&gt;Today's Weather&lt;/h2&gt;
+    &lt;p&gt;Chance of rain: 60%&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/li&gt;</code></pre>
+
+      <p class="demo-intro">
+        In CSS, convert <code>data-rain-percent</code> into a custom property, give it a type using
+        <code>attr()</code>, and then use it within a range style query:
+      </p>
+
+      <pre class="code-block"><code>.card-container {
+  container-name: weather;
+  --rain-percent: attr(data-rain-percent type(&lt;percentage&gt;));
+}
+
+@container style(--rain-percent > 45%) {
+  .weather-card {
+    background: linear-gradient(140deg, blue, lightblue);
+  }
+}</code></pre>
+
+      <p class="demo-intro">
+        Now, if the chance of rain is greater than 45%, the card will get a blue background.
+      </p>
+
+      <p class="demo-intro">
+        Range queries can also be used in <code>if()</code> statements now as well, meaning more
+        concise phrasing for styles. For example, you can write the above code even more concisely
+        using inline <code>if()</code>:
+      </p>
+
+      <pre class="code-block"><code>.weather-card {
+  background: if(style(--rain-percent > 45%): blue; else: gray);
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Drag the slider to change Monday's <code>data-rain-percent</code> attribute. Past 45% the
+        card's background switches to a rainy gradient via <code>@container style()</code>; past
+        70% an extra badge kicks in too. The little dot on each card uses the more concise
+        <code>if(style(...))</code> form for its color.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <label class="rain-slider-label">
+        Monday's chance of rain: <span id="rain-value-display">20%</span>
+        <input type="range" id="rain-slider" min="0" max="100" step="5" value="20" />
+      </label>
+
+      <ul class="weather-cards" id="weather-cards">
+        <li class="card-container" data-rain-percent="20%">
+          <div class="weather-card">
+            <span class="weather-card__dot" aria-hidden="true"></span>
+            <h3>Monday</h3>
+            <p>Chance of rain: <span class="rain-value">20%</span></p>
+          </div>
+        </li>
+        <li class="card-container" data-rain-percent="60%">
+          <div class="weather-card">
+            <span class="weather-card__dot" aria-hidden="true"></span>
+            <h3>Tuesday</h3>
+            <p>Chance of rain: <span class="rain-value">60%</span></p>
+          </div>
+        </li>
+        <li class="card-container" data-rain-percent="85%">
+          <div class="weather-card">
+            <span class="weather-card__dot" aria-hidden="true"></span>
+            <h3>Wednesday</h3>
+            <p>Chance of rain: <span class="rain-value">85%</span></p>
+          </div>
+        </li>
+      </ul>
+
+      <p class="polyfill-note">
+        Range syntax in style queries and <code>if()</code> has limited browser availability
+        (Chrome/Edge 142+ today). Where it isn't supported, this page falls back to reading each
+        card's <code>data-rain-percent</code> in JavaScript and toggling equivalent classes, so the
+        cards still change color at the same thresholds.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
