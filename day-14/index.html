@@ -3,23 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 14 — CSS Grid Subgrid | CSS Wrapped 2025</title>
+  <title>Day 14 — Advanced attr() function | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 14 / 21</p>
-    <h1>CSS Grid Subgrid</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Advanced attr() function</h1>
+    <p>Typed values for attr() beyond simple strings.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 101 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/advanced-attr" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/attr" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/attr" target="_blank" rel="noopener"><code>attr()</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "CSS Grid Subgrid" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        The CSS <code>attr()</code> function, which lets you use the value of an HTML attribute
+        within your CSS, has been powered-up.
+      </p>
+
+      <p class="demo-intro">
+        Previously, <code>attr()</code> could only be used within the <code>content</code> property
+        of pseudo-elements and could only return values as a CSS string. The updated
+        <code>attr()</code> function expands its capabilities, allowing <code>attr()</code> to be
+        used with any CSS property, including custom properties. It can now also parse attribute
+        values into various data types beyond just strings, like colors, lengths, and custom
+        identifiers.
+      </p>
+
+      <p class="demo-intro">
+        With the new attribute, you can set an element's <code>color</code> property based on a
+        <code>data-color</code> attribute, parsing it as a <code>&lt;color&gt;</code> type with a
+        fallback.
+      </p>
+
+      <pre class="code-block"><code>div {
+  color: attr(data-color type(&lt;color&gt;), red);
+}</code></pre>
+
+      <p class="demo-intro">
+        To solve a common UI challenge, you can dynamically set the
+        <code>view-transition-name</code> for multiple elements using their <code>id</code>
+        attribute, parsed as a <code>&lt;custom-ident&gt;</code>. This avoids repetitive CSS rules
+        for each element.
+      </p>
+
+      <pre class="code-block"><code>.card {
+  /* card-1, card-2, card-3, etc. */
+  view-transition-name: attr(id type(&lt;custom-ident&gt;), none);
+  view-transition-class: card;
+}</code></pre>
+
+      <p class="demo-intro">
+        Finally, <code>attr()</code> can be used in multiple ways on the same element. Use
+        <code>data-rating</code> to determine a percent-fill for a star rating background, then use
+        that same data attribute in the <code>content</code> property to insert the value in a
+        pseudo-element.
+      </p>
+
+      <pre class="code-block"><code>.star-rating {
+  --percent-fill: calc(attr(data-rating type(&lt;number&gt;)) * 20%);
+  /* hard breakpoint gradient background */
+  background: linear-gradient(to right, gold var(--percent-fill), transparent var(--percent-fill));
+
+  &::after {
+    content: attr(data-rating);
+  }
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <h3 class="demo-subheading">1. Typed color — attr(data-color type(&lt;color&gt;))</h3>
+      <p class="demo-intro">
+        Pick a color; it's written straight to a <code>data-color</code> attribute, and the swatch
+        below reads it back through <code>attr()</code> — no inline styles, no JS-driven repaint.
+      </p>
+
+      <label class="color-picker">
+        <input type="color" id="color-input" value="#9c4999" />
+        Swatch color
+      </label>
+
+      <div class="swatch" id="color-swatch" data-color="#9c4999"></div>
+
+      <h3 class="demo-subheading">2. Typed custom idents — attr(id type(&lt;custom-ident&gt;))</h3>
+      <p class="demo-intro">
+        Each card below gets its <code>view-transition-name</code> straight from its own
+        <code>id</code> — one CSS rule instead of one per card. The badge shows what the browser
+        actually computed for that property.
+      </p>
+
+      <div class="vt-name-grid">
+        <div class="vt-name-card" id="vt-card-1">
+          <span class="vt-name-card__label">#vt-card-1</span>
+          <span class="vt-name-card__computed" data-computed></span>
+        </div>
+        <div class="vt-name-card" id="vt-card-2">
+          <span class="vt-name-card__label">#vt-card-2</span>
+          <span class="vt-name-card__computed" data-computed></span>
+        </div>
+        <div class="vt-name-card" id="vt-card-3">
+          <span class="vt-name-card__label">#vt-card-3</span>
+          <span class="vt-name-card__computed" data-computed></span>
+        </div>
+      </div>
+
+      <h3 class="demo-subheading">3. Typed numbers — the star rating</h3>
+      <p class="demo-intro">
+        Drag the slider to change <code>data-rating</code>. The gold fill width and the number in
+        the corner are both computed purely from that one attribute.
+      </p>
+
+      <input type="range" id="rating-input" class="rating-slider" min="0" max="5" step="1" value="4" />
+
+      <div class="star-rating" id="star-rating" data-rating="4">★★★★★</div>
+
+      <p class="polyfill-note">
+        The typed <code>attr()</code> syntax — <code>attr(name type(&lt;type&gt;), fallback)</code> —
+        has limited browser availability (Chrome/Edge 133+ today). Where it isn't supported, this
+        page falls back to setting the equivalent styles from JavaScript whenever the underlying
+        attribute changes, so all three demos above still work — they just aren't computed by CSS
+        alone.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>
