@@ -1,2 +1,256 @@
-/* Day 13 — Scroll-driven animations
+/* Day 13 — DOM State-Preserving Move
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+.demo-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  border-color: transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.demo-btn:hover {
+  transform: translateY(-2px);
+}
+
+.demo-btn:active {
+  transform: translateY(0);
+}
+
+.demo-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.demo-btn--accent {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.demo-btn--danger {
+  background: linear-gradient(135deg, #ef4444, #f97316);
+}
+
+.move-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
+/* ---------------------------------------------------------------- */
+/* The two drop slots. The movable card starts in Slot A and is       */
+/* re-parented between them via insertBefore or moveBefore.           */
+/* ---------------------------------------------------------------- */
+
+.move-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.move-slot {
+  min-height: 14rem;
+  padding: 1rem;
+  border: 2px dashed var(--border);
+  border-radius: var(--card-radius);
+  background: var(--bg-alt);
+}
+
+.move-slot__label {
+  margin: 0 0 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---------------------------------------------------------------- */
+/* The movable card itself.                                           */
+/* ---------------------------------------------------------------- */
+
+.move-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem;
+  border-radius: var(--card-radius);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 24px var(--shadow);
+}
+
+.move-card__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.move-card__row-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.move-card__progress-track {
+  width: 100%;
+  height: 0.6rem;
+  border-radius: 999px;
+  overflow: clip;
+  background: color-mix(in oklab, var(--accent) 15%, var(--bg-alt));
+}
+
+.move-card__progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  animation: fill-progress 20s linear infinite;
+}
+
+@keyframes fill-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.move-card__input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--fg);
+  font-size: 0.9rem;
+}
+
+.move-card__input:focus {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 1px;
+}
+
+.move-card__status {
+  margin: -0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.move-card__status.is-focused {
+  color: #3ddc84;
+  font-weight: 600;
+}
+
+.move-card__frame {
+  width: 100%;
+  height: 6rem;
+  border: none;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-btn,
+  .move-card__progress-bar {
+    transition: none;
+    animation-duration: 60s;
+  }
+}

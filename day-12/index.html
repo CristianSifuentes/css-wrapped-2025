@@ -3,23 +3,107 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 12 — text-wrap: balance and pretty | CSS Wrapped 2025</title>
+  <title>Day 12 — Nested View Transition Groups | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 12 / 21</p>
-    <h1>text-wrap: balance and pretty</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>Nested View Transition Groups</h1>
+    <p>Retain 3D and clipping effects while running a view transition.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span><strong>Limited availability</strong> · Chrome/Edge 140+</span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/docs/css-ui/view-transitions/nested-view-transition-groups" target="_blank" rel="noopener">Chrome for Developers</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "text-wrap: balance and pretty" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        Nested view transition groups is an extension to view transitions that lets you nest
+        <code>::view-transition-group</code> pseudo-elements within each other.
+      </p>
+
+      <p class="demo-intro">
+        When view transition groups are nested, instead of putting them all as siblings under a
+        single <code>::view-transition</code> pseudo-element, it's possible to retain 3D and
+        clipping effects during the transition.
+      </p>
+
+      <p class="demo-intro">
+        To nest <code>::view-transition-group</code> elements in another group, use the
+        <code>view-transition-group</code> property on either the parent or children.
+      </p>
+
+      <pre class="code-block"><code>.card {
+  view-transition-name: card;
+  overflow: clip;
+}
+
+.card img {
+  view-transition-name: photo;
+  view-transition-group: nearest;
+}</code></pre>
+
+      <p class="demo-intro">
+        The nested groups get placed inside a new <code>::view-transition-group-children(&hellip;)</code>
+        pseudo-element in the tree. To reinstate the clipping used in the original DOM, apply
+        <code>overflow: clip</code> on that pseudo-element.
+      </p>
+
+      <pre class="code-block"><code>::view-transition-group-children(card) {
+  overflow: clip;
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Click a card to feature it — it tilts in 3D as it grows. Without nested view transition
+        groups, the avatar and name don't rotate along with the card. With the toggle checked, the
+        3D effect is restored.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <label class="nest-toggle">
+        <input type="checkbox" id="nest-toggle" checked />
+        Nest the avatar+name group under the card (<code>view-transition-group: nearest</code>)
+      </label>
+
+      <div class="vt-stage" id="vt-grid">
+        <button type="button" class="vt-card" id="vt-card-a" style="--card: var(--violet);">
+          <span class="vt-card__label">
+            <span class="vt-card__avatar">🪐</span>
+            <span class="vt-card__name">Saturn</span>
+          </span>
+        </button>
+        <button type="button" class="vt-card" id="vt-card-b" style="--card: var(--magenta);">
+          <span class="vt-card__label">
+            <span class="vt-card__avatar">🌙</span>
+            <span class="vt-card__name">Moon</span>
+          </span>
+        </button>
+      </div>
+
+      <p class="polyfill-note">
+        Nested view transition groups have limited browser availability (Chrome/Edge 140+ today).
+        Where <code>document.startViewTransition</code> isn't supported at all, clicking a card
+        just snaps to its featured state instantly — no animation, no mismatch to see. Where view
+        transitions are supported but nesting isn't, the toggle has no effect: the avatar and name
+        will always animate flatly, detached from the card's rotation, regardless of the checkbox.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>

@@ -3,23 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 16 — Nested selectors with & | CSS Wrapped 2025</title>
+  <title>Day 16 — text-box features | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 16 / 21</p>
-    <h1>Nested selectors with &</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>text-box features</h1>
+    <p>Flawlessly center text vertically.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 73 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/css-text-box-trim" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-box-trim" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-box" target="_blank" rel="noopener"><code>text-box</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "Nested selectors with &" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        A font's content box is defined by internal metrics — specifically the ascent and descent
+        that reserve space for accents and hanging characters.
+      </p>
+
+      <p class="demo-intro">
+        Because the visual boundaries of Latin text are the <strong>cap height</strong> and the
+        <strong>alphabetic baseline</strong>, rather than the ascent and descent, text will appear
+        optically off-center even when it is mathematically centered within a container.
+      </p>
+
+      <p class="demo-intro">
+        The <code>text-box</code> properties make finer control of vertical alignment of text
+        possible, letting you flawlessly center text vertically. The
+        <code>text-box-trim</code> property specifies the sides to trim, above or below (or both),
+        and the <code>text-box-edge</code> property specifies the metrics to use for
+        <code>text-box-trim</code> effects.
+      </p>
+
+      <p class="demo-intro">
+        When trimming both edges and setting the over edge metric to <code>cap</code> and the under
+        edge metric to <code>alphabetic</code>, text will be visually centered.
+      </p>
+
+      <pre class="code-block"><code>h1, button {
+  text-box: trim-both cap alphabetic;
+}</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Both boxes below use identical padding and line-height. The dashed guide marks the exact
+        vertical center of the box. Toggle <code>text-box-trim</code> on and watch the text — not
+        the box — slide onto the guide.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <label class="trim-toggle">
+        <input type="checkbox" id="trim-toggle" checked />
+        Apply <code>text-box: trim-both cap alphabetic;</code>
+      </label>
+
+      <div class="text-box-demo">
+        <div class="text-box-demo__sample">
+          <div class="text-box-demo__guide" aria-hidden="true"></div>
+          <h3 class="text-box-demo__label">Heading</h3>
+        </div>
+        <div class="text-box-demo__sample">
+          <div class="text-box-demo__guide" aria-hidden="true"></div>
+          <button type="button" class="text-box-demo__button">Button label</button>
+        </div>
+      </div>
+
+      <p class="polyfill-note">
+        <code>text-box</code> and its longhands have limited browser availability (Chrome/Edge 133+
+        today). Where unsupported, the checkbox above has no visible effect — the text keeps using
+        the browser's default half-leading, and you'll see it sit off-center against the guide
+        regardless of the toggle state.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>

@@ -3,23 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 17 — field-sizing and modern forms | CSS Wrapped 2025</title>
+  <title>Day 17 — shape() function | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 17 / 21</p>
-    <h1>field-sizing and modern forms</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>shape() function</h1>
+    <p>CSS function for complex, responsive shapes.</p>
+
+    <div class="baseline-badge baseline-badge--newly">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>Baseline 2026 · <strong>Newly available</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.chrome.com/blog/css-shape" target="_blank" rel="noopener">Chrome for Developers</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/basic-shape/shape" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/basic-shape/shape" target="_blank" rel="noopener"><code>shape()</code></a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "field-sizing and modern forms" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        The new <code>shape()</code> function lets you clip an element to a complex,
+        non-polygonal, responsive shape in CSS. This is a great option compared to clipping masks
+        using <code>clip-path: path()</code>, and it works seamlessly with CSS custom properties to
+        define coordinates and control points, making it more maintainable than SVG shapes. This
+        also means you can animate your custom properties within <code>shape()</code> to create
+        dynamic and interactive clipping.
+      </p>
+
+      <p class="demo-intro">
+        Here's how to create a flag shape with curved top and bottom edges using
+        <code>shape()</code>:
+      </p>
+
+      <pre class="code-block"><code>.flag {
+  clip-path: shape(from 0% 20px,
+    curve to 100% 20px with 25% 0% / 75% 40px,
+    vline to calc(100% - 20px),
+    curve to 0% calc(100% - 20px)
+      with 75% 100% / 25% calc(100% - 40px),
+    close
+  );
+}</code></pre>
+
+      <p class="demo-intro">
+        In this example, the horizontal coordinates use percentages to scale with the element's
+        width, while the vertical coordinates for the curve's height use fixed pixel values,
+        creating a responsive effect where the flag's wave remains constant regardless of the
+        element's size.
+      </p>
+
+      <p class="demo-intro">
+        Another example from the Chrome team uses a blob generator for <code>shape()</code> to
+        create a fun frame effect — see the Chrome for Developers article linked above for that
+        one.
+      </p>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Same flag, same <code>shape()</code> commands — but the curve depth is now a custom
+        property. Drag the slider to animate the wave in real time, proof that <code>shape()</code>
+        recomputes cleanly as its inputs change.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <label class="wave-slider-label">
+        Wave depth: <span id="wave-value">40px</span>
+        <input type="range" id="wave-slider" min="10" max="70" step="1" value="40" />
+      </label>
+
+      <div class="flag" id="flag"></div>
+
+      <p class="polyfill-note">
+        <code>clip-path: shape()</code> only recently reached Baseline "newly available" — some
+        browsers in the wild may still lack it. Where it isn't supported, <code>clip-path</code> is
+        simply ignored, so the box above renders as a plain rectangle and the slider has no visible
+        effect.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>

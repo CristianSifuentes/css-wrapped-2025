@@ -1,2 +1,198 @@
-/* Day 12 — text-wrap: balance and pretty
+/* Day 12 — Nested View Transition Groups
    Styles specific to this day's demo. */
+
+.baseline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.baseline-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.baseline-badge--limited .baseline-badge__dot {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.18);
+}
+
+.ref-links {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.ref-links a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.ref-links a:hover {
+  text-decoration: underline;
+}
+
+.demo-heading {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.demo-intro {
+  color: var(--fg);
+  max-width: 68ch;
+}
+
+.demo-intro code,
+.nest-toggle code,
+.polyfill-note code {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.code-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.support-status {
+  font-style: italic;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.support-status.ok {
+  color: #3ddc84;
+}
+
+.support-status.nok {
+  color: #ff8fa3;
+}
+
+.polyfill-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 68ch;
+}
+
+.nest-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.nest-toggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------- */
+/* The cards. Each has its own view-transition-name so clicking one  */
+/* triggers a real view transition between its resting and featured  */
+/* states. The avatar+name label inside also gets its own name; only */
+/* nesting it under the card's group (view-transition-group: nearest) */
+/* makes it rotate in sync with the card during the transition.       */
+/* ---------------------------------------------------------------- */
+
+.vt-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3rem;
+  margin: 1rem 0 2rem;
+  padding: 3rem 1rem;
+  perspective: 1400px;
+}
+
+.vt-card {
+  appearance: none;
+  position: relative;
+  width: 8.5rem;
+  height: 8.5rem;
+  border: none;
+  border-radius: var(--card-radius);
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, var(--card, var(--accent)), color-mix(in oklab, var(--card, var(--accent)) 60%, black));
+  box-shadow: 0 16px 32px var(--shadow);
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+
+#vt-card-a {
+  view-transition-name: card-a;
+}
+
+#vt-card-b {
+  view-transition-name: card-b;
+}
+
+.vt-card.is-featured {
+  transform: scale(1.6) rotateY(24deg) rotateX(-10deg);
+  z-index: 2;
+}
+
+.vt-card__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+#vt-card-a .vt-card__label {
+  view-transition-name: label-a;
+}
+
+#vt-card-b .vt-card__label {
+  view-transition-name: label-b;
+}
+
+.vt-card__avatar {
+  font-size: 1.8rem;
+}
+
+.vt-card__name {
+  font-size: 0.85rem;
+}
+
+/* Opt-in nesting: whichever label is transitioning becomes a child of  */
+/* its nearest ancestor's view-transition-group (its own card) instead */
+/* of a flat sibling under the top-level ::view-transition root.        */
+#vt-grid.is-nested .vt-card__label {
+  view-transition-group: nearest;
+}
+
+::view-transition-group-children(card-a),
+::view-transition-group-children(card-b) {
+  overflow: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vt-card {
+    transition: none;
+  }
+}

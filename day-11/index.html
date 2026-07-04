@@ -3,23 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 11 — View Transitions API | CSS Wrapped 2025</title>
+  <title>Day 11 — scrollIntoView() container | CSS Wrapped 2025</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <p class="day-number">Day 11 / 21</p>
-    <h1>View Transitions API</h1>
-    <p>Coming soon: a practical example and short video walkthrough.</p>
+    <h1>scrollIntoView() container</h1>
+    <p>Sometimes, scrolling only the nearest ancestor scroller is all you want.</p>
+
+    <div class="baseline-badge baseline-badge--limited">
+      <span class="baseline-badge__dot" aria-hidden="true"></span>
+      <span>👍 22 · <strong>Limited availability</strong></span>
+    </div>
+
+    <div class="ref-links">
+      <a href="#demo">Try the demo</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView" target="_blank" rel="noopener">MDN</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView" target="_blank" rel="noopener">scrollIntoView() container</a>
+    </div>
   </header>
+
   <main>
     <section class="demo">
-      <!-- Demo for "View Transitions API" — implementation pending -->
-      <p>🚧 Under construction.</p>
+      <p class="demo-intro">
+        The <code>container</code> option for <code>Element.scrollIntoView()</code> lets you perform a
+        <code>scrollIntoView</code> that only scrolls the <strong>nearest ancestor scroll container</strong>.
+        This is extremely useful if you have nested scroll containers. With the option set to
+        <code>"nearest"</code>, calling <code>scrollIntoView</code> won't scroll all of the scroll
+        containers between the element and the viewport — just the closest one.
+      </p>
+
+      <pre class="code-block"><code>slideList.addEventListener('click', (evt) => {
+  // scrollIntoView will automatically determine the position.
+  evt.target.targetSlide.scrollIntoView({container: 'nearest', behavior: 'smooth'});
+});</code></pre>
+
+      <h2 id="demo" class="demo-heading">Try it live</h2>
+      <p class="demo-intro">
+        Below is a classic nested-scroll-container setup: an outer box scrolls vertically like a page,
+        and it contains a carousel that scrolls horizontally. Click a thumbnail to jump to that slide,
+        and watch what happens to the text above and below the carousel.
+      </p>
+
+      <p id="support-status" class="support-status">Checking native support…</p>
+
+      <label class="nearest-toggle">
+        <input type="checkbox" id="nearest-toggle" checked />
+        Use <code>container: "nearest"</code>
+      </label>
+
+      <div class="thumb-row" id="thumb-row">
+        <button type="button" class="thumb-btn" data-slide="0">1</button>
+        <button type="button" class="thumb-btn" data-slide="1">2</button>
+        <button type="button" class="thumb-btn" data-slide="2">3</button>
+        <button type="button" class="thumb-btn" data-slide="3">4</button>
+        <button type="button" class="thumb-btn" data-slide="4">5</button>
+        <button type="button" class="thumb-btn" data-slide="5">6</button>
+      </div>
+
+      <div class="outer-scroller" id="outer-scroller">
+        <p class="filler-block">↑ Some content above the carousel, like the rest of a page.</p>
+        <p class="filler-block">
+          Scroll containers can nest — this outer box scrolls vertically, and the carousel below
+          scrolls horizontally, independently of it.
+        </p>
+
+        <div class="carousel-shell">
+          <div class="carousel-track" id="carousel-track">
+            <div class="carousel-slide" style="--card: var(--violet);"><span>🪐</span>Saturn</div>
+            <div class="carousel-slide" style="--card: var(--magenta);"><span>🌙</span>Moon</div>
+            <div class="carousel-slide" style="--card: var(--pink);"><span>🚀</span>Rocket</div>
+            <div class="carousel-slide" style="--card: var(--gold);"><span>☄️</span>Comet</div>
+            <div class="carousel-slide" style="--card: var(--lime);"><span>🛰️</span>Satellite</div>
+            <div class="carousel-slide" style="--card: var(--accent-2);"><span>🌌</span>Nebula</div>
+          </div>
+        </div>
+
+        <p class="filler-block">↓ …and content below it, so the carousel isn't pinned to an edge.</p>
+        <p class="filler-block">
+          Without <code>container: "nearest"</code>, a click can drag this whole box up or down even
+          though you only meant to scroll the carousel sideways.
+        </p>
+      </div>
+
+      <p class="polyfill-note">
+        <code>scrollIntoView({ container: "nearest" })</code> has limited browser availability. This
+        demo detects real support with a tiny hidden probe at load time; where it isn't supported, the
+        "nearest" toggle falls back to manually scrolling just the carousel track, so you can still see
+        the intended effect. With the toggle off, the demo always uses the standard, universally
+        supported default <code>scrollIntoView()</code> — which is exactly what causes the outer box to
+        jump.
+      </p>
     </section>
+
     <p><a href="../index.html">← Back to index</a></p>
   </main>
+
   <script src="../js/main.js"></script>
   <script src="script.js"></script>
 </body>

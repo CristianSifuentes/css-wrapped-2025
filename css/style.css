@@ -293,6 +293,54 @@ main {
   }
 }
 
+/* ---------------------------------------------------------------- */
+/* "Next-gen Interactions" group — same non-shifting mechanism as      */
+/* above (inset border + hover pill), but with its own slowly living   */
+/* color identity: the border hue drifts through the palette via an    */
+/* animated, registered custom property. @property is itself one of    */
+/* the "next-gen" CSS features this site is about, so the accent for   */
+/* this specific group quietly demonstrates the thing it names.        */
+/* ---------------------------------------------------------------- */
+
+@property --ngi-accent {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #472d90;
+}
+
+.day-card[data-category="next-gen-interactions"] {
+  --ngi-accent: var(--violet);
+  box-shadow: inset 3px 0 0 0 var(--ngi-accent);
+  animation: ngi-drift 7s ease-in-out infinite;
+}
+
+.day-card[data-category="next-gen-interactions"]:hover,
+.day-card[data-category="next-gen-interactions"]:focus-visible {
+  box-shadow: inset 4px 0 0 0 var(--ngi-accent);
+  animation-duration: 2.5s;
+}
+
+.day-card[data-category="next-gen-interactions"]::after {
+  background: linear-gradient(135deg, var(--violet), var(--magenta), var(--pink));
+}
+
+@keyframes ngi-drift {
+  0%,
+  100% {
+    --ngi-accent: var(--violet);
+  }
+  50% {
+    --ngi-accent: var(--magenta);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-card[data-category="next-gen-interactions"] {
+    animation: none;
+    --ngi-accent: var(--violet);
+  }
+}
+
 footer.site-footer {
   position: relative;
   z-index: 1;
